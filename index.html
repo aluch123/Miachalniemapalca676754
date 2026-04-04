@@ -9,9 +9,10 @@
     :root{--green:#008060;--live:#00b67a;--bg:#111;--card:#fff;}
     *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
     html,body{height:100%;overscroll-behavior:none;}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:#1a1a1a;max-width:430px;margin:0 auto;overflow-x:hidden;}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:#1a1a1a;max-width:430px;margin:0 auto;}
 
-    .scroll{height:100dvh;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:90px;}
+    .page{display:none;height:100dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:90px;background:#111;}
+    .page.active{display:block;}
 
     /* NAV */
     .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;background:var(--bg);position:sticky;top:0;z-index:50;}
@@ -22,66 +23,56 @@
     .bell{position:relative;font-size:24px;cursor:pointer;}
     .bell b{position:absolute;top:-5px;right:-6px;background:#e44;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;}
 
-    .page{background:#111;padding:10px 0 0;}
+    .page-bg{background:#111;padding:10px 0 0;}
     .card{background:#fff;border-radius:18px;margin:0 12px 12px;padding:16px;}
 
-    /* FILTER BAR */
     .fbar{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
     .fbtn{display:flex;align-items:center;gap:5px;border:1.5px solid #ddd;border-radius:22px;padding:8px 13px;font-size:13px;font-weight:500;background:#fff;cursor:pointer;color:#1a1a1a;white-space:nowrap;min-height:38px;}
     .vpill{display:flex;align-items:center;gap:6px;border:1.5px solid #ddd;border-radius:22px;padding:8px 13px;font-size:13px;background:#fff;color:#1a1a1a;min-height:38px;cursor:pointer;white-space:nowrap;}
     .dot{width:8px;height:8px;border-radius:50%;background:var(--live);flex-shrink:0;animation:pulse 1.5s infinite;}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-    .rbtn{margin-left:auto;display:flex;align-items:center;gap:5px;border:1.5px solid #ddd;border-radius:22px;padding:8px 13px;font-size:13px;background:#fff;cursor:pointer;color:#1a1a1a;min-height:38px;white-space:nowrap;}
+    .rbtn{margin-left:auto;display:flex;align-items:center;gap:5px;border:1.5px solid #ddd;border-radius:22px;padding:8px 13px;font-size:13px;background:#fff;cursor:pointer;color:#1a1a1a;min-height:38px;}
 
-    /* STATS */
     .stats{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:6px;margin-bottom:14px;}
     .slbl{font-size:11px;color:#888;margin-bottom:3px;}
     .sval{font-size:20px;font-weight:700;cursor:pointer;display:inline-block;line-height:1.2;min-height:28px;}
     .sval.sm{font-size:15px;}
     .sval:active{opacity:.6;}
     .schg{font-size:12px;color:var(--live);margin-top:3px;cursor:pointer;min-height:20px;display:inline-block;}
-    .schg:active{opacity:.6;}
 
     .chart-wrap{height:150px;}
-    .chart-axis{display:flex;justify-content:space-between;font-size:10px;color:#bbb;margin-top:5px;padding:0 2px;}
+    .chart-axis{display:flex;justify-content:space-between;font-size:10px;color:#bbb;margin-top:5px;}
 
     .arow{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid #f0f0f0;padding-top:14px;margin-top:8px;}
     .aitem{display:flex;align-items:center;justify-content:space-between;padding:0 8px;border-right:1px solid #f0f0f0;}
     .aitem:first-child{padding-left:0;}
     .aitem:last-child{border-right:none;}
     .anum{font-size:17px;font-weight:700;cursor:pointer;min-height:26px;display:inline-block;}
-    .anum:active{opacity:.6;}
     .albl{font-size:10px;color:#888;margin-top:2px;line-height:1.3;}
     .aico{font-size:17px;opacity:.45;}
 
-    /* CAPITAL */
     .cap-card{background:#fff;border-radius:18px;margin:0 12px 12px;padding:18px;}
-    .cap-more{float:right;color:#aaa;font-size:20px;cursor:pointer;padding:0 4px;margin-top:-4px;}
     .cap-title{font-size:15px;font-weight:700;line-height:1.45;margin-bottom:5px;}
     .cap-sub{font-size:13px;color:#666;margin-bottom:5px;}
-    .cap-amt{font-size:28px;font-weight:800;cursor:pointer;display:inline-block;min-height:38px;}
-    .cap-amt:active{opacity:.6;}
+    .cap-amt{font-size:28px;font-weight:800;cursor:pointer;display:inline-block;}
     .divider{border:none;border-top:1px solid #f0f0f0;margin:14px 0;}
     .fund-title{font-size:14px;font-weight:700;margin-bottom:10px;}
     .cklist{list-style:none;margin-bottom:16px;}
     .cklist li{font-size:13px;color:#444;margin-bottom:9px;display:flex;gap:8px;align-items:flex-start;line-height:1.4;}
-    .cklist li::before{content:"✓";color:var(--live);font-weight:700;flex-shrink:0;margin-top:1px;}
-    .rev-btn{width:100%;border:1.5px solid #ddd;background:#fff;border-radius:12px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;color:#1a1a1a;}
+    .cklist li::before{content:"✓";color:var(--live);font-weight:700;flex-shrink:0;}
+    .rev-btn{width:100%;border:1.5px solid #ddd;background:#fff;border-radius:12px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;}
 
-    /* EARNINGS */
     .earn-card{background:#fff;border-radius:18px;margin:0 12px 12px;padding:18px;}
     .earn-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
     .earn-ttl{font-size:15px;font-weight:700;}
     .earn-badge{background:var(--live);color:#fff;border-radius:20px;padding:4px 11px;font-size:11px;font-weight:700;}
     .earn-amt{font-size:34px;font-weight:800;cursor:pointer;display:inline-block;min-height:44px;}
-    .earn-amt:active{opacity:.6;}
     .earn-sub{font-size:12px;color:#888;margin-top:4px;line-height:1.4;}
     .earn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px;}
     .eitem{background:#f7f7f7;border-radius:12px;padding:11px 10px;}
     .eival{font-size:14px;font-weight:700;}
     .eilbl{font-size:10px;color:#888;margin-top:3px;}
 
-    /* SETTINGS */
     .set-card{background:#fff;border-radius:18px;margin:0 12px 12px;padding:18px;}
     .set-ttl{font-size:15px;font-weight:700;margin-bottom:12px;}
     .srow{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #f0f0f0;}
@@ -91,79 +82,94 @@
     .sright span{font-size:14px;color:#555;}
     .sinput{width:76px;border:1.5px solid #ddd;border-radius:10px;padding:8px 10px;font-size:16px;text-align:right;-webkit-appearance:none;}
     .save-btn{width:100%;background:var(--green);color:#fff;border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;margin-top:14px;}
-    .save-btn:active{background:#006e52;}
 
     .end-card{background:#f5f5f5;border-radius:18px;margin:0 12px 12px;padding:36px 20px;text-align:center;}
     .end-ico{font-size:30px;opacity:.35;margin-bottom:10px;}
     .end-ttl{font-size:16px;font-weight:700;margin-bottom:7px;color:#1a1a1a;}
     .end-sub{font-size:13px;color:#777;line-height:1.6;}
 
-    .ie{border:none;border-bottom:2px solid var(--green);outline:none;background:transparent;font-family:inherit;font-weight:700;color:#1a1a1a;font-size:inherit;width:100%;max-width:200px;}
+    .ie{border:none;border-bottom:2px solid var(--green);outline:none;background:transparent;font-family:inherit;font-weight:inherit;color:#1a1a1a;font-size:inherit;max-width:200px;}
 
-    /* BOTTOM NAV — białe tło jak Shopify */
-    .bnav{
-      position:fixed;bottom:0;left:50%;transform:translateX(-50%);
-      width:100%;max-width:430px;
-      background:#fff;
-      border-top:1px solid #e5e5e5;
-      display:flex;justify-content:space-around;align-items:center;
-      padding:10px 8px;
-      padding-bottom:max(10px,env(safe-area-inset-bottom));
-      z-index:50;
-    }
-    .ni{
-      display:flex;flex-direction:column;align-items:center;gap:3px;
-      font-size:10px;color:#aaa;cursor:pointer;
-      min-width:44px;padding:2px 0;
-    }
+    /* MORE PAGE */
+    .more-page{background:#f5f5f5;min-height:100dvh;padding-bottom:90px;}
+    .more-header{background:#fff;padding:20px 16px 16px;margin-bottom:10px;}
+    .more-header h2{font-size:22px;font-weight:800;}
+    .more-sec-lbl{font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;padding:6px 16px 6px;}
+    .more-section{background:#fff;border-radius:16px;margin:0 12px 12px;overflow:hidden;}
+    .more-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #f5f5f5;cursor:pointer;}
+    .more-row:last-child{border-bottom:none;}
+    .more-row:active{background:#fafafa;}
+    .more-row-left{display:flex;align-items:center;gap:12px;}
+    .more-ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+    .more-ico.g{background:#e6f4f0;}
+    .more-ico.b{background:#e8f0fb;}
+    .more-ico.o{background:#fff3e6;}
+    .more-ico.r{background:#fde8e8;}
+    .more-ico.p{background:#f0e8fb;}
+    .more-lbl{font-size:15px;font-weight:500;}
+    .more-sub{font-size:12px;color:#aaa;margin-top:2px;}
+    .more-arrow{color:#ccc;font-size:20px;font-weight:300;}
+    .nbadge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:#f5f5f5;color:#aaa;}
+    .nbadge.on{background:#e6f4f0;color:var(--green);}
+
+    /* NOTIF PAGE */
+    .notif-page{background:#f5f5f5;min-height:100dvh;padding-bottom:90px;}
+    .notif-header{background:#fff;padding:16px;display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+    .back-btn{font-size:28px;color:var(--green);cursor:pointer;line-height:1;padding-right:4px;}
+    .notif-header h2{font-size:20px;font-weight:800;}
+    .nsection{background:#fff;border-radius:16px;margin:0 12px 12px;overflow:hidden;}
+    .nrow{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #f5f5f5;}
+    .nrow:last-child{border-bottom:none;}
+    .nlbl{font-size:15px;font-weight:500;}
+    .nsub{font-size:12px;color:#aaa;margin-top:2px;}
+    .toggle{position:relative;width:50px;height:28px;flex-shrink:0;}
+    .toggle input{opacity:0;width:0;height:0;}
+    .tslider{position:absolute;inset:0;background:#ddd;border-radius:28px;transition:.3s;cursor:pointer;}
+    .tslider:before{content:'';position:absolute;width:22px;height:22px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+    .toggle input:checked+.tslider{background:var(--green);}
+    .toggle input:checked+.tslider:before{transform:translateX(22px);}
+    .ninput{width:64px;border:1.5px solid #ddd;border-radius:10px;padding:7px 10px;font-size:15px;text-align:center;-webkit-appearance:none;}
+    .ninput:focus{outline:none;border-color:var(--green);}
+    .nselect{border:1.5px solid #ddd;border-radius:10px;padding:7px 10px;font-size:14px;background:#fff;-webkit-appearance:none;cursor:pointer;}
+    .nselect:focus{outline:none;border-color:var(--green);}
+    .ninfo{background:#e6f4f0;border-radius:12px;margin:0 12px 12px;padding:14px 16px;}
+    .ninfo p{font-size:13px;color:#008060;line-height:1.5;}
+    .nperm-btn{width:calc(100% - 24px);margin:0 12px 12px;background:#fff;color:var(--green);border:2px solid var(--green);border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;}
+    .ntest-btn{width:calc(100% - 24px);margin:0 12px 12px;background:var(--green);color:#fff;border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;}
+    .ntest-btn:active{background:#006e52;}
+    .nstop-btn{width:calc(100% - 24px);margin:0 12px 12px;background:#fff;color:#e44;border:2px solid #e44;border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;}
+
+    /* BOTTOM NAV */
+    .bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;border-top:1px solid #e5e5e5;display:flex;justify-content:space-around;align-items:center;padding:10px 8px;padding-bottom:max(10px,env(safe-area-inset-bottom));z-index:50;}
+    .ni{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:#aaa;cursor:pointer;min-width:44px;padding:2px 0;}
     .ni.active{color:#1a1a1a;}
-    /* kółko wokół każdej ikony */
-    .ni-circle{
-      width:44px;height:44px;border-radius:50%;
-      background:#f2f2f2;
-      display:flex;align-items:center;justify-content:center;
-    }
-    /* aktywny dom — ciemne kółko */
+    .ni-circle{width:44px;height:44px;border-radius:50%;background:#f2f2f2;display:flex;align-items:center;justify-content:center;}
     .ni.active .ni-circle{background:#1a1a1a;}
-    .ni.active .ni-circle svg{stroke:#fff;color:#fff;}
-    .ni.active .ni-circle svg.filled{fill:#fff;}
     .ni-circle svg{width:22px;height:22px;stroke:#888;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+    .ni.active .ni-circle svg{stroke:#fff;}
     .ni-circle svg.filled{fill:#888;stroke:none;}
+    .ni.active .ni-circle svg.filled{fill:#fff;stroke:none;}
   </style>
 </head>
 <body>
-<div class="scroll">
 
-  <!-- NAV -->
+<!-- ══ HOME ══ -->
+<div class="page active" id="page-home">
   <div class="nav">
     <div class="av">F</div>
     <span class="store-name">Paya store</span>
     <div class="nav-right">
-      <div class="bell">🔔<b>1</b></div>
+      <div class="bell">🔔<b id="bellBadge">1</b></div>
       <div class="av p">F</div>
     </div>
   </div>
-
-  <div class="page">
-
+  <div class="page-bg">
     <div class="card">
-      <!-- FILTER BAR -->
       <div class="fbar">
-        <button class="fbtn" id="periodBtn" onclick="cyclePeriod()">
-          Today
-          <svg width="11" height="11" fill="none" stroke="#555" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="vpill" onclick="editInline('visitorsVal','74 visitors',13)">
-          <span class="dot"></span>
-          <span id="visitorsVal">74 visitors</span>
-        </div>
-        <button class="rbtn">
-          <svg width="13" height="13" fill="none" stroke="#555" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-          Report
-        </button>
+        <button class="fbtn" id="periodBtn" onclick="cyclePeriod()">Today <svg width="11" height="11" fill="none" stroke="#555" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="vpill" onclick="editInline('visitorsVal','74 visitors',13)"><span class="dot"></span><span id="visitorsVal">74 visitors</span></div>
+        <button class="rbtn"><svg width="13" height="13" fill="none" stroke="#555" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg> Report</button>
       </div>
-
-      <!-- STATS -->
       <div class="stats">
         <div>
           <div class="slbl">Total sales</div>
@@ -181,40 +187,17 @@
           <div class="schg" id="vConvChg" onclick="editInline('vConvChg','↗ 392%',12)">↗ 392%</div>
         </div>
       </div>
-
-      <!-- CHART -->
       <div class="chart-wrap"><canvas id="chart"></canvas></div>
       <div class="chart-axis"><span>12:00 AM</span><span>5:00 AM</span><span>10:00 AM</span></div>
-
-      <!-- ACTION ROW -->
       <div class="arow">
-        <div class="aitem">
-          <div>
-            <div class="anum" id="vFulfill" onclick="editInline('vFulfill','50+',17)">50+</div>
-            <div class="albl">Orders to fulfill</div>
-          </div>
-          <div class="aico">📦</div>
-        </div>
-        <div class="aitem">
-          <div>
-            <div class="anum" id="vPayment" onclick="editInline('vPayment','1',17)">1</div>
-            <div class="albl">Payment to capture</div>
-          </div>
-          <div class="aico">💳</div>
-        </div>
-        <div class="aitem">
-          <div>
-            <div class="anum" id="vRisk" onclick="editInline('vRisk','9',17)">9</div>
-            <div class="albl">High risk orders</div>
-          </div>
-          <div class="aico">⚠️</div>
-        </div>
+        <div class="aitem"><div><div class="anum" id="vFulfill" onclick="editInline('vFulfill','50+',17)">50+</div><div class="albl">Orders to fulfill</div></div><div class="aico">📦</div></div>
+        <div class="aitem" style="padding-left:8px"><div><div class="anum" id="vPayment" onclick="editInline('vPayment','1',17)">1</div><div class="albl">Payment to capture</div></div><div class="aico">💳</div></div>
+        <div class="aitem" style="padding-left:8px"><div><div class="anum" id="vRisk" onclick="editInline('vRisk','9',17)">9</div><div class="albl">High risk orders</div></div><div class="aico">⚠️</div></div>
       </div>
     </div>
 
-    <!-- CAPITAL -->
     <div class="cap-card">
-      <span class="cap-more">···</span>
+      <span style="float:right;color:#aaa;font-size:20px">···</span>
       <div class="cap-title">You're eligible to apply for funding through Shopify Capital</div>
       <div class="cap-sub">Apply for up to:</div>
       <div class="cap-amt" id="vCapital" onclick="editInline('vCapital','$12,000',28)">$12,000</div>
@@ -228,12 +211,8 @@
       <button class="rev-btn">Review your offers</button>
     </div>
 
-    <!-- EARNINGS -->
     <div class="earn-card">
-      <div class="earn-hdr">
-        <span class="earn-ttl">💰 Twoje zarobki</span>
-        <span class="earn-badge">LIVE</span>
-      </div>
+      <div class="earn-hdr"><span class="earn-ttl">💰 Twoje zarobki</span><span class="earn-badge">LIVE</span></div>
       <div class="earn-amt" id="liveEarn" onclick="editEarnings()">$0.00</div>
       <div class="earn-sub" id="sessInfo">Sesja: 0m 0s · 0 odsłon · 0 kliknięć</div>
       <div class="earn-grid">
@@ -243,214 +222,117 @@
       </div>
     </div>
 
-    <!-- SETTINGS -->
     <div class="set-card">
       <div class="set-ttl">⚙️ Ustawienia zarobków</div>
-      <div class="srow">
-        <span class="slabel">Za odsłonę strony</span>
-        <div class="sright"><span>$</span><input class="sinput" type="number" id="rView" value="0.05" step="0.01" min="0" inputmode="decimal"/></div>
-      </div>
-      <div class="srow">
-        <span class="slabel">Za minutę przeglądania</span>
-        <div class="sright"><span>$</span><input class="sinput" type="number" id="rTime" value="0.10" step="0.01" min="0" inputmode="decimal"/></div>
-      </div>
-      <div class="srow">
-        <span class="slabel">Za kliknięcie</span>
-        <div class="sright"><span>$</span><input class="sinput" type="number" id="rClick" value="0.02" step="0.01" min="0" inputmode="decimal"/></div>
-      </div>
-      <div class="srow">
-        <span class="slabel">Bonus za zamówienie</span>
-        <div class="sright"><span>$</span><input class="sinput" type="number" id="rOrder" value="1.00" step="0.10" min="0" inputmode="decimal"/></div>
-      </div>
+      <div class="srow"><span class="slabel">Za odsłonę strony</span><div class="sright"><span>$</span><input class="sinput" type="number" id="rView" value="0.05" step="0.01" min="0" inputmode="decimal"/></div></div>
+      <div class="srow"><span class="slabel">Za minutę przeglądania</span><div class="sright"><span>$</span><input class="sinput" type="number" id="rTime" value="0.10" step="0.01" min="0" inputmode="decimal"/></div></div>
+      <div class="srow"><span class="slabel">Za kliknięcie</span><div class="sright"><span>$</span><input class="sinput" type="number" id="rClick" value="0.02" step="0.01" min="0" inputmode="decimal"/></div></div>
+      <div class="srow"><span class="slabel">Bonus za zamówienie</span><div class="sright"><span>$</span><input class="sinput" type="number" id="rOrder" value="1.00" step="0.10" min="0" inputmode="decimal"/></div></div>
       <button class="save-btn" onclick="saveSettings()">Zapisz ustawienia</button>
     </div>
 
-    <!-- THAT'S IT -->
     <div class="end-card">
       <div class="end-ico">⊘</div>
       <div class="end-ttl">That's it for now</div>
       <div class="end-sub">Check back later for more insights and advice about your business</div>
     </div>
+  </div>
+</div>
 
+<!-- ══ MORE ══ -->
+<div class="page" id="page-more">
+  <div class="more-page">
+    <div class="more-header"><h2>More</h2></div>
+    <div class="more-sec-lbl">Narzędzia</div>
+    <div class="more-section">
+      <div class="more-row" onclick="goPage('page-notif')">
+        <div class="more-row-left">
+          <div class="more-ico g">🔔</div>
+          <div><div class="more-lbl">Powiadomienia</div><div class="more-sub" id="notifSub">Wyłączone</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="nbadge" id="notifBadge">Off</span>
+          <span class="more-arrow">›</span>
+        </div>
+      </div>
+      <div class="more-row">
+        <div class="more-row-left"><div class="more-ico b">📊</div><div><div class="more-lbl">Analytics</div><div class="more-sub">Raporty i statystyki</div></div></div>
+        <span class="more-arrow">›</span>
+      </div>
+      <div class="more-row">
+        <div class="more-row-left"><div class="more-ico o">🏷️</div><div><div class="more-lbl">Products</div><div class="more-sub">Zarządzaj produktami</div></div></div>
+        <span class="more-arrow">›</span>
+      </div>
+      <div class="more-row">
+        <div class="more-row-left"><div class="more-ico p">💳</div><div><div class="more-lbl">Payments</div><div class="more-sub">Metody płatności</div></div></div>
+        <span class="more-arrow">›</span>
+      </div>
+      <div class="more-row">
+        <div class="more-row-left"><div class="more-ico r">⚙️</div><div><div class="more-lbl">Settings</div><div class="more-sub">Ustawienia sklepu</div></div></div>
+        <span class="more-arrow">›</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NOTIFICATIONS ══ -->
+<div class="page" id="page-notif">
+  <div class="notif-page">
+    <div class="notif-header">
+      <span class="back-btn" onclick="goPage('page-more')">‹</span>
+      <h2>Powiadomienia</h2>
+    </div>
+
+    <div class="ninfo"><p>📱 Powiadomienia push wysyłane są bezpośrednio na Twój telefon — nawet gdy aplikacja jest w tle.</p></div>
+
+    <button class="nperm-btn" id="permBtn" onclick="requestPermission()">🔓 Zezwól na powiadomienia</button>
+
+    <div class="nsection">
+      <div class="nrow">
+        <div><div class="nlbl">Włącz powiadomienia</div><div class="nsub">Nowe zamówienia, alerty</div></div>
+        <label class="toggle"><input type="checkbox" id="toggleMain" onchange="onToggleMain()"/><span class="tslider"></span></label>
+      </div>
+      <div class="nrow">
+        <div><div class="nlbl">Nowe zamówienie</div><div class="nsub">Przy każdym nowym zamówieniu</div></div>
+        <label class="toggle"><input type="checkbox" id="tOrder" checked/><span class="tslider"></span></label>
+      </div>
+      <div class="nrow">
+        <div><div class="nlbl">Wysokie ryzyko</div><div class="nsub">Alert przy podejrzanym zamówieniu</div></div>
+        <label class="toggle"><input type="checkbox" id="tRisk" checked/><span class="tslider"></span></label>
+      </div>
+      <div class="nrow">
+        <div><div class="nlbl">Płatność do pobrania</div><div class="nsub">Oczekująca płatność</div></div>
+        <label class="toggle"><input type="checkbox" id="tPay"/><span class="tslider"></span></label>
+      </div>
+    </div>
+
+    <div class="nsection">
+      <div class="nrow">
+        <div><div class="nlbl">Liczba powiadomień</div><div class="nsub">Ile wysłać łącznie</div></div>
+        <input class="ninput" type="number" id="nCount" value="10" min="1" max="999" inputmode="numeric"/>
+      </div>
+      <div class="nrow">
+        <div><div class="nlbl">Co ile czasu</div><div class="nsub">Interwał między powiadomieniami</div></div>
+        <select class="nselect" id="nInterval">
+          <option value="10000">10 sek</option>
+          <option value="30000">30 sek</option>
+          <option value="60000" selected>1 min</option>
+          <option value="300000">5 min</option>
+          <option value="600000">10 min</option>
+          <option value="1800000">30 min</option>
+        </select>
+      </div>
+      <div class="nrow">
+        <div><div class="nlbl">Nazwa sklepu w powiadomieniu</div><div class="nsub">Wyświetlana w treści</div></div>
+        <input style="border:1.5px solid #ddd;border-radius:10px;padding:7px 10px;font-size:14px;width:130px;" type="text" id="nStoreName" value="Paya store" inputmode="text"/>
+      </div>
+    </div>
+
+    <button class="ntest-btn" onclick="startNotifications()">▶ Uruchom powiadomienia</button>
+    <button class="nstop-btn" onclick="stopNotifications()">■ Zatrzymaj powiadomienia</button>
   </div>
 </div>
 
 <!-- BOTTOM NAV -->
 <div class="bnav">
-
-  <!-- Search -->
-  <div class="ni" onclick="setNav(this)">
-    <div class="ni-circle">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
-    </div>
-    <span>Search</span>
-  </div>
-
-  <!-- Home — active by default -->
-  <div class="ni active" onclick="setNav(this)">
-    <div class="ni-circle">
-      <svg class="filled" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-    </div>
-    <span>Home</span>
-  </div>
-
-  <!-- Orders — inbox tray -->
-  <div class="ni" onclick="setNav(this)">
-    <div class="ni-circle">
-      <svg viewBox="0 0 24 24"><rect x="2" y="13" width="20" height="8" rx="2"/><polyline points="2,13 5,5 19,5 22,13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
-    </div>
-    <span>Orders</span>
-  </div>
-
-  <!-- Products — price tag -->
-  <div class="ni" onclick="setNav(this)">
-    <div class="ni-circle">
-      <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7" cy="7" r="1.5" fill="#888" stroke="none"/></svg>
-    </div>
-    <span>Products</span>
-  </div>
-
-  <!-- More — hamburger -->
-  <div class="ni" onclick="setNav(this)">
-    <div class="ni-circle">
-      <svg viewBox="0 0 24 24"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
-    </div>
-    <span>More</span>
-  </div>
-
-  <!-- Account — person with mask like Shopify -->
-  <div class="ni" onclick="setNav(this)">
-    <div class="ni-circle">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-    </div>
-    <span>Account</span>
-  </div>
-
-</div>
-
-<script>
-// ── Chart ──────────────────────────────────────────────
-const cctx = document.getElementById('chart').getContext('2d');
-const n = 42;
-const s1 = Array.from({length:n},(_,i)=>3500+Math.sin(i*.65)*2200+Math.random()*1400);
-const s2 = Array.from({length:n},(_,i)=>4200+Math.sin(i*.55+1)*1900+Math.random()*1100);
-new Chart(cctx,{
-  type:'line',
-  data:{
-    labels:Array(n).fill(''),
-    datasets:[
-      {data:s1,borderColor:'#5bc8f5',backgroundColor:'rgba(91,200,245,.07)',tension:.45,pointRadius:0,fill:true,borderWidth:2.5},
-      {data:s2,borderColor:'#b8e8f7',borderDash:[5,4],tension:.45,pointRadius:0,fill:false,borderWidth:1.5}
-    ]
-  },
-  options:{
-    responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{display:false},tooltip:{enabled:false}},
-    scales:{
-      x:{display:false},
-      y:{grid:{color:'#f0f0f0'},border:{display:false},ticks:{font:{size:10},color:'#bbb',callback:v=>'$'+v/1000+'K',maxTicksLimit:5}}
-    },
-    animation:{duration:0}
-  }
-});
-
-// ── Period ─────────────────────────────────────────────
-const periods=['Today','Last 7 days','Last 30 days','Last 90 days'];
-let pi=0;
-function cyclePeriod(){
-  pi=(pi+1)%periods.length;
-  const btn=document.getElementById('periodBtn');
-  btn.childNodes[0].textContent=periods[pi]+' ';
-}
-
-// ── Nav ────────────────────────────────────────────────
-function setNav(el){
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
-  el.classList.add('active');
-}
-
-// ── Inline edit ────────────────────────────────────────
-function editInline(id,def,fs){
-  const el=document.getElementById(id);
-  if(el.querySelector('input')) return;
-  const orig=el.textContent.trim()||def;
-  const inp=document.createElement('input');
-  inp.className='ie';
-  inp.style.fontSize=fs+'px';
-  inp.value=orig;
-  inp.setAttribute('inputmode','text');
-  el.innerHTML='';
-  el.appendChild(inp);
-  setTimeout(()=>{inp.focus();inp.select();},50);
-  const commit=()=>{el.textContent=inp.value.trim()||orig;};
-  inp.addEventListener('blur',commit);
-  inp.addEventListener('keydown',e=>{
-    if(e.key==='Enter'){e.preventDefault();inp.blur();}
-    if(e.key==='Escape'){el.textContent=orig;}
-  });
-}
-
-// ── Earnings edit ──────────────────────────────────────
-let earningsManual=false;
-function editEarnings(){
-  const el=document.getElementById('liveEarn');
-  if(el.querySelector('input')) return;
-  const orig=el.textContent.trim();
-  const inp=document.createElement('input');
-  inp.className='ie';
-  inp.style.fontSize='34px';
-  inp.value=orig;
-  inp.setAttribute('inputmode','decimal');
-  earningsManual=true;
-  el.innerHTML='';
-  el.appendChild(inp);
-  setTimeout(()=>{inp.focus();inp.select();},50);
-  const commit=()=>{el.textContent=inp.value.trim()||orig;};
-  inp.addEventListener('blur',commit);
-  inp.addEventListener('keydown',e=>{
-    if(e.key==='Enter'){e.preventDefault();inp.blur();}
-    if(e.key==='Escape'){el.textContent=orig;earningsManual=false;}
-  });
-}
-
-// ── Earnings engine ────────────────────────────────────
-let cfg={view:.05,time:.10,click:.02,order:1};
-let sess={sec:0,views:1,clicks:0};
-
-function saveSettings(){
-  cfg.view =parseFloat(document.getElementById('rView').value)||0;
-  cfg.time =parseFloat(document.getElementById('rTime').value)||0;
-  cfg.click=parseFloat(document.getElementById('rClick').value)||0;
-  cfg.order=parseFloat(document.getElementById('rOrder').value)||0;
-  earningsManual=false;
-  const btn=document.querySelector('.save-btn');
-  btn.textContent='✓ Zapisano';
-  setTimeout(()=>btn.textContent='Zapisz ustawienia',1500);
-}
-
-function tick(){
-  sess.sec++;
-  const fv=sess.views*cfg.view;
-  const ft=(sess.sec/60)*cfg.time;
-  const fc=sess.clicks*cfg.click;
-  const tot=fv+ft+fc;
-  const el=document.getElementById('liveEarn');
-  if(!earningsManual&&!el.querySelector('input')) el.textContent='$'+tot.toFixed(2);
-  document.getElementById('ebV').textContent='$'+fv.toFixed(2);
-  document.getElementById('ebT').textContent='$'+ft.toFixed(2);
-  document.getElementById('ebC').textContent='$'+fc.toFixed(2);
-  const m=Math.floor(sess.sec/60),s=sess.sec%60;
-  document.getElementById('sessInfo').textContent=`Sesja: ${m}m ${s}s · ${sess.views} odsłon · ${sess.clicks} kliknięć`;
-}
-
-setInterval(tick,1000);
-setInterval(()=>{sess.views++;},30000);
-document.addEventListener('touchend',e=>{
-  if(!e.target.closest('input')&&!e.target.closest('button')){sess.clicks++;}
-},{passive:true});
-document.addEventListener('click',e=>{
-  if(!e.target.closest('input')&&!e.target.closest('button')){sess.clicks++;}
-});
-</script>
-</body>
-</html>
+  <div class="ni" onclick="setNav(this,'page-
