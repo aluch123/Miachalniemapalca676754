@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Paya Store</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root{--green:#008060;--live:#00b67a;--bg:#111;--card:#fff;}
+    *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+    html,body{height:100%;overscroll-behavior:none;}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:#1a1a1a;max-width:430px;margin:0 auto;overflow-x:hidden;}
+
+    .scroll{height:100dvh;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:90px;}
+
+    /* NAV */
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;background:var(--bg);position:sticky;top:0;z-index:50;}
+    .av{width:38px;height:38px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:17px;flex-shrink:0;}
+    .av.p{background:#5c6bc0;}
+    .store-name{font-size:17px;font-weight:600;color:#fff;}
+    .nav-right{display:flex;align-items:center;gap:14px;}
+    .bell{position:relative;font-size:24px;cursor:pointer;}
+    .bell b{position:absolute;top:-5px;right:-6px;background:#e44;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+
+    .page{background:#111;padding:10px 0 0;}
+    .card{background:#fff;border-radius:18px;margin:0 12px 12px;padding:16px;}
+
+    /* FILTER BAR */
+    .fbar{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+    .fbtn{display:flex;align-items:center;gap:5px;border:1.5px solid #ddd;border-radius:22px;padding:8px 13px;font-size:13px;font-weight:500;background:#fff;cursor:pointer;color:#1a1a1a;white-space:nowrap;min-height:38px;}
+    .vpill{display:flex;align-items:center;gap:6px;border:1.5px solid #ddd;border-radius:22px;padding:8px 13px;font-size:13px;background:#fff;color:#1a1a1a;min-height:38px;cursor:pointer;white-space:nowrap;}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--live);flex-shrink:0;animation:pulse 1.5s infinite;}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+    .rbtn{margin-left:auto;display:flex;align-items:center;gap:5px;border:1.5px solid #ddd;border-radius:22px;padding:8px 13px;font-size:13px;background:#fff;cursor:pointer;color:#1a1a1a;min-height:38px;white-space:nowrap;}
+
+    /* STATS */
+    .stats{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:6px;margin-bottom:14px;}
+    .slbl{font-size:11px;color:#888;margin-bottom:3px;}
+    .sval{font-size:20px;font-weight:700;cursor:pointer;display:inline-block;line-height:1.2;min-height:28px;}
+    .sval.sm{font-size:15px;}
+    .sval:active{opacity:.6;}
+    .schg{font-size:12px;color:var(--live);margin-top:3px;cursor:pointer;min-height:20px;display:inline-block;}
+    .schg:active{opacity:.6;}
+
+    .chart-wrap{height:150px;}
+    .chart-axis{display:flex;justify-content:space-between;font-size:10px;color:#bbb;margin-top:5px;padding:0 2px;}
+
+    .arow{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid #f0f0f0;padding-top:14px;margin-top:8px;}
+    .aitem{display:flex;align-items:center;justify-content:space-between;padding:0 8px;border-right:1px solid #f0f0f0;}
+    .aitem:first-child{padding-left:0;}
+    .aitem:last-child{border-right:none;}
+    .anum{font-size:17px;font-weight:700;cursor:pointer;min-height:26px;display:inline-block;}
+    .anum:active{opacity:.6;}
+    .albl{font-size:10px;color:#888;margin-top:2px;line-height:1.3;}
+    .aico{font-size:17px;opacity:.45;}
+
+    /* CAPITAL */
+    .cap-card{background:#fff;border-radius:18px;margin:0 12px 12px;padding:18px;}
+    .cap-more{float:right;color:#aaa;font-size:20px;cursor:pointer;padding:0 4px;margin-top:-4px;}
+    .cap-title{font-size:15px;font-weight:700;line-height:1.45;margin-bottom:5px;}
+    .cap-sub{font-size:13px;color:#666;margin-bottom:5px;}
+    .cap-amt{font-size:28px;font-weight:800;cursor:pointer;display:inline-block;min-height:38px;}
+    .cap-amt:active{opacity:.6;}
+    .divider{border:none;border-top:1px solid #f0f0f0;margin:14px 0;}
+    .fund-title{font-size:14px;font-weight:700;margin-bottom:10px;}
+    .cklist{list-style:none;margin-bottom:16px;}
+    .cklist li{font-size:13px;color:#444;margin-bottom:9px;display:flex;gap:8px;align-items:flex-start;line-height:1.4;}
+    .cklist li::before{content:"✓";color:var(--live);font-weight:700;flex-shrink:0;margin-top:1px;}
+    .rev-btn{width:100%;border:1.5px solid #ddd;background:#fff;border-radius:12px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;color:#1a1a1a;}
+
+    /* EARNINGS */
+    .earn-card{background:#fff;border-radius:18px;margin:0 12px 12px;padding:18px;}
+    .earn-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+    .earn-ttl{font-size:15px;font-weight:700;}
+    .earn-badge{background:var(--live);color:#fff;border-radius:20px;padding:4px 11px;font-size:11px;font-weight:700;}
+    .earn-amt{font-size:34px;font-weight:800;cursor:pointer;display:inline-block;min-height:44px;}
+    .earn-amt:active{opacity:.6;}
+    .earn-sub{font-size:12px;color:#888;margin-top:4px;line-height:1.4;}
+    .earn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px;}
+    .eitem{background:#f7f7f7;border-radius:12px;padding:11px 10px;}
+    .eival{font-size:14px;font-weight:700;}
+    .eilbl{font-size:10px;color:#888;margin-top:3px;}
+
+    /* SETTINGS */
+    .set-card{background:#fff;border-radius:18px;margin:0 12px 12px;padding:18px;}
+    .set-ttl{font-size:15px;font-weight:700;margin-bottom:12px;}
+    .srow{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #f0f0f0;}
+    .srow:last-of-type{border-bottom:none;}
+    .slabel{font-size:14px;color:#333;}
+    .sright{display:flex;align-items:center;gap:5px;}
+    .sright span{font-size:14px;color:#555;}
+    .sinput{width:76px;border:1.5px solid #ddd;border-radius:10px;padding:8px 10px;font-size:16px;text-align:right;-webkit-appearance:none;}
+    .save-btn{width:100%;background:var(--green);color:#fff;border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;margin-top:14px;}
+    .save-btn:active{background:#006e52;}
+
+    .end-card{background:#f5f5f5;border-radius:18px;margin:0 12px 12px;padding:36px 20px;text-align:center;}
+    .end-ico{font-size:30px;opacity:.35;margin-bottom:10px;}
+    .end-ttl{font-size:16px;font-weight:700;margin-bottom:7px;color:#1a1a1a;}
+    .end-sub{font-size:13px;color:#777;line-height:1.6;}
+
+    .ie{border:none;border-bottom:2px solid var(--green);outline:none;background:transparent;font-family:inherit;font-weight:700;color:#1a1a1a;font-size:inherit;width:100%;max-width:200px;}
+
+    /* BOTTOM NAV — białe tło jak Shopify */
+    .bnav{
+      position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+      width:100%;max-width:430px;
+      background:#fff;
+      border-top:1px solid #e5e5e5;
+      display:flex;justify-content:space-around;align-items:center;
+      padding:10px 8px;
+      padding-bottom:max(10px,env(safe-area-inset-bottom));
+      z-index:50;
+    }
+    .ni{
+      display:flex;flex-direction:column;align-items:center;gap:3px;
+      font-size:10px;color:#aaa;cursor:pointer;
+      min-width:44px;padding:2px 0;
+    }
+    .ni.active{color:#1a1a1a;}
+    /* kółko wokół każdej ikony */
+    .ni-circle{
+      width:44px;height:44px;border-radius:50%;
+      background:#f2f2f2;
+      display:flex;align-items:center;justify-content:center;
+    }
+    /* aktywny dom — ciemne kółko */
+    .ni.active .ni-circle{background:#1a1a1a;}
+    .ni.active .ni-circle svg{stroke:#fff;color:#fff;}
+    .ni.active .ni-circle svg.filled{fill:#fff;}
+    .ni-circle svg{width:22px;height:22px;stroke:#888;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+    .ni-circle svg.filled{fill:#888;stroke:none;}
+  </style>
+</head>
+<body>
+<div class="scroll">
+
+  <!-- NAV -->
+  <div class="nav">
+    <div class="av">F</div>
+    <span class="store-name">Paya store</span>
+    <div class="nav-right">
+      <div class="bell">🔔<b>1</b></div>
+      <div class="av p">F</div>
+    </div>
+  </div>
+
+  <div class="page">
+
+    <div class="card">
+      <!-- FILTER BAR -->
+      <div class="fbar">
+        <button class="fbtn" id="periodBtn" onclick="cyclePeriod()">
+          Today
+          <svg width="11" height="11" fill="none" stroke="#555" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="vpill" onclick="editInline('visitorsVal','74 visitors',13)">
+          <span class="dot"></span>
+          <span id="visitorsVal">74 visitors</span>
+        </div>
+        <button class="rbtn">
+          <svg width="13" height="13" fill="none" stroke="#555" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Report
+        </button>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats">
+        <div>
+          <div class="slbl">Total sales</div>
+          <div class="sval" id="vSales" onclick="editInline('vSales','$48,260.6',20)">$48,260.6</div>
+          <div class="schg" id="vSalesChg" onclick="editInline('vSalesChg','↗ 746%',12)">↗ 746%</div>
+        </div>
+        <div>
+          <div class="slbl">Orders</div>
+          <div class="sval sm" id="vOrders" onclick="editInline('vOrders','69,971',15)">69,971</div>
+          <div class="schg" id="vOrdersChg" onclick="editInline('vOrdersChg','↗ 327%',12)">↗ 327%</div>
+        </div>
+        <div>
+          <div class="slbl">Conversion rate</div>
+          <div class="sval sm" id="vConv" onclick="editInline('vConv','11.00%',15)">11.00%</div>
+          <div class="schg" id="vConvChg" onclick="editInline('vConvChg','↗ 392%',12)">↗ 392%</div>
+        </div>
+      </div>
+
+      <!-- CHART -->
+      <div class="chart-wrap"><canvas id="chart"></canvas></div>
+      <div class="chart-axis"><span>12:00 AM</span><span>5:00 AM</span><span>10:00 AM</span></div>
+
+      <!-- ACTION ROW -->
+      <div class="arow">
+        <div class="aitem">
+          <div>
+            <div class="anum" id="vFulfill" onclick="editInline('vFulfill','50+',17)">50+</div>
+            <div class="albl">Orders to fulfill</div>
+          </div>
+          <div class="aico">📦</div>
+        </div>
+        <div class="aitem">
+          <div>
+            <div class="anum" id="vPayment" onclick="editInline('vPayment','1',17)">1</div>
+            <div class="albl">Payment to capture</div>
+          </div>
+          <div class="aico">💳</div>
+        </div>
+        <div class="aitem">
+          <div>
+            <div class="anum" id="vRisk" onclick="editInline('vRisk','9',17)">9</div>
+            <div class="albl">High risk orders</div>
+          </div>
+          <div class="aico">⚠️</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAPITAL -->
+    <div class="cap-card">
+      <span class="cap-more">···</span>
+      <div class="cap-title">You're eligible to apply for funding through Shopify Capital</div>
+      <div class="cap-sub">Apply for up to:</div>
+      <div class="cap-amt" id="vCapital" onclick="editInline('vCapital','$12,000',28)">$12,000</div>
+      <hr class="divider"/>
+      <div class="fund-title">Get fast funding and repay with a percentage of your daily sales</div>
+      <ul class="cklist">
+        <li>Apply with zero impact on your credit score</li>
+        <li>Receive funds in as quick as two business days if approved</li>
+        <li>One fixed fee, with no compounding interest</li>
+      </ul>
+      <button class="rev-btn">Review your offers</button>
+    </div>
+
+    <!-- EARNINGS -->
+    <div class="earn-card">
+      <div class="earn-hdr">
+        <span class="earn-ttl">💰 Twoje zarobki</span>
+        <span class="earn-badge">LIVE</span>
+      </div>
+      <div class="earn-amt" id="liveEarn" onclick="editEarnings()">$0.00</div>
+      <div class="earn-sub" id="sessInfo">Sesja: 0m 0s · 0 odsłon · 0 kliknięć</div>
+      <div class="earn-grid">
+        <div class="eitem"><div class="eival" id="ebV">$0.00</div><div class="eilbl">Odsłony</div></div>
+        <div class="eitem"><div class="eival" id="ebT">$0.00</div><div class="eilbl">Czas</div></div>
+        <div class="eitem"><div class="eival" id="ebC">$0.00</div><div class="eilbl">Kliknięcia</div></div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="set-card">
+      <div class="set-ttl">⚙️ Ustawienia zarobków</div>
+      <div class="srow">
+        <span class="slabel">Za odsłonę strony</span>
+        <div class="sright"><span>$</span><input class="sinput" type="number" id="rView" value="0.05" step="0.01" min="0" inputmode="decimal"/></div>
+      </div>
+      <div class="srow">
+        <span class="slabel">Za minutę przeglądania</span>
+        <div class="sright"><span>$</span><input class="sinput" type="number" id="rTime" value="0.10" step="0.01" min="0" inputmode="decimal"/></div>
+      </div>
+      <div class="srow">
+        <span class="slabel">Za kliknięcie</span>
+        <div class="sright"><span>$</span><input class="sinput" type="number" id="rClick" value="0.02" step="0.01" min="0" inputmode="decimal"/></div>
+      </div>
+      <div class="srow">
+        <span class="slabel">Bonus za zamówienie</span>
+        <div class="sright"><span>$</span><input class="sinput" type="number" id="rOrder" value="1.00" step="0.10" min="0" inputmode="decimal"/></div>
+      </div>
+      <button class="save-btn" onclick="saveSettings()">Zapisz ustawienia</button>
+    </div>
+
+    <!-- THAT'S IT -->
+    <div class="end-card">
+      <div class="end-ico">⊘</div>
+      <div class="end-ttl">That's it for now</div>
+      <div class="end-sub">Check back later for more insights and advice about your business</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bnav">
+
+  <!-- Search -->
+  <div class="ni" onclick="setNav(this)">
+    <div class="ni-circle">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+    </div>
+    <span>Search</span>
+  </div>
+
+  <!-- Home — active by default -->
+  <div class="ni active" onclick="setNav(this)">
+    <div class="ni-circle">
+      <svg class="filled" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    </div>
+    <span>Home</span>
+  </div>
+
+  <!-- Orders — inbox tray -->
+  <div class="ni" onclick="setNav(this)">
+    <div class="ni-circle">
+      <svg viewBox="0 0 24 24"><rect x="2" y="13" width="20" height="8" rx="2"/><polyline points="2,13 5,5 19,5 22,13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+    </div>
+    <span>Orders</span>
+  </div>
+
+  <!-- Products — price tag -->
+  <div class="ni" onclick="setNav(this)">
+    <div class="ni-circle">
+      <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7" cy="7" r="1.5" fill="#888" stroke="none"/></svg>
+    </div>
+    <span>Products</span>
+  </div>
+
+  <!-- More — hamburger -->
+  <div class="ni" onclick="setNav(this)">
+    <div class="ni-circle">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+    </div>
+    <span>More</span>
+  </div>
+
+  <!-- Account — person with mask like Shopify -->
+  <div class="ni" onclick="setNav(this)">
+    <div class="ni-circle">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </div>
+    <span>Account</span>
+  </div>
+
+</div>
+
+<script>
+// ── Chart ──────────────────────────────────────────────
+const cctx = document.getElementById('chart').getContext('2d');
+const n = 42;
+const s1 = Array.from({length:n},(_,i)=>3500+Math.sin(i*.65)*2200+Math.random()*1400);
+const s2 = Array.from({length:n},(_,i)=>4200+Math.sin(i*.55+1)*1900+Math.random()*1100);
+new Chart(cctx,{
+  type:'line',
+  data:{
+    labels:Array(n).fill(''),
+    datasets:[
+      {data:s1,borderColor:'#5bc8f5',backgroundColor:'rgba(91,200,245,.07)',tension:.45,pointRadius:0,fill:true,borderWidth:2.5},
+      {data:s2,borderColor:'#b8e8f7',borderDash:[5,4],tension:.45,pointRadius:0,fill:false,borderWidth:1.5}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{enabled:false}},
+    scales:{
+      x:{display:false},
+      y:{grid:{color:'#f0f0f0'},border:{display:false},ticks:{font:{size:10},color:'#bbb',callback:v=>'$'+v/1000+'K',maxTicksLimit:5}}
+    },
+    animation:{duration:0}
+  }
+});
+
+// ── Period ─────────────────────────────────────────────
+const periods=['Today','Last 7 days','Last 30 days','Last 90 days'];
+let pi=0;
+function cyclePeriod(){
+  pi=(pi+1)%periods.length;
+  const btn=document.getElementById('periodBtn');
+  btn.childNodes[0].textContent=periods[pi]+' ';
+}
+
+// ── Nav ────────────────────────────────────────────────
+function setNav(el){
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── Inline edit ────────────────────────────────────────
+function editInline(id,def,fs){
+  const el=document.getElementById(id);
+  if(el.querySelector('input')) return;
+  const orig=el.textContent.trim()||def;
+  const inp=document.createElement('input');
+  inp.className='ie';
+  inp.style.fontSize=fs+'px';
+  inp.value=orig;
+  inp.setAttribute('inputmode','text');
+  el.innerHTML='';
+  el.appendChild(inp);
+  setTimeout(()=>{inp.focus();inp.select();},50);
+  const commit=()=>{el.textContent=inp.value.trim()||orig;};
+  inp.addEventListener('blur',commit);
+  inp.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){e.preventDefault();inp.blur();}
+    if(e.key==='Escape'){el.textContent=orig;}
+  });
+}
+
+// ── Earnings edit ──────────────────────────────────────
+let earningsManual=false;
+function editEarnings(){
+  const el=document.getElementById('liveEarn');
+  if(el.querySelector('input')) return;
+  const orig=el.textContent.trim();
+  const inp=document.createElement('input');
+  inp.className='ie';
+  inp.style.fontSize='34px';
+  inp.value=orig;
+  inp.setAttribute('inputmode','decimal');
+  earningsManual=true;
+  el.innerHTML='';
+  el.appendChild(inp);
+  setTimeout(()=>{inp.focus();inp.select();},50);
+  const commit=()=>{el.textContent=inp.value.trim()||orig;};
+  inp.addEventListener('blur',commit);
+  inp.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){e.preventDefault();inp.blur();}
+    if(e.key==='Escape'){el.textContent=orig;earningsManual=false;}
+  });
+}
+
+// ── Earnings engine ────────────────────────────────────
+let cfg={view:.05,time:.10,click:.02,order:1};
+let sess={sec:0,views:1,clicks:0};
+
+function saveSettings(){
+  cfg.view =parseFloat(document.getElementById('rView').value)||0;
+  cfg.time =parseFloat(document.getElementById('rTime').value)||0;
+  cfg.click=parseFloat(document.getElementById('rClick').value)||0;
+  cfg.order=parseFloat(document.getElementById('rOrder').value)||0;
+  earningsManual=false;
+  const btn=document.querySelector('.save-btn');
+  btn.textContent='✓ Zapisano';
+  setTimeout(()=>btn.textContent='Zapisz ustawienia',1500);
+}
+
+function tick(){
+  sess.sec++;
+  const fv=sess.views*cfg.view;
+  const ft=(sess.sec/60)*cfg.time;
+  const fc=sess.clicks*cfg.click;
+  const tot=fv+ft+fc;
+  const el=document.getElementById('liveEarn');
+  if(!earningsManual&&!el.querySelector('input')) el.textContent='$'+tot.toFixed(2);
+  document.getElementById('ebV').textContent='$'+fv.toFixed(2);
+  document.getElementById('ebT').textContent='$'+ft.toFixed(2);
+  document.getElementById('ebC').textContent='$'+fc.toFixed(2);
+  const m=Math.floor(sess.sec/60),s=sess.sec%60;
+  document.getElementById('sessInfo').textContent=`Sesja: ${m}m ${s}s · ${sess.views} odsłon · ${sess.clicks} kliknięć`;
+}
+
+setInterval(tick,1000);
+setInterval(()=>{sess.views++;},30000);
+document.addEventListener('touchend',e=>{
+  if(!e.target.closest('input')&&!e.target.closest('button')){sess.clicks++;}
+},{passive:true});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('input')&&!e.target.closest('button')){sess.clicks++;}
+});
+</script>
+</body>
+</html>
