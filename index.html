@@ -6,16 +6,16 @@
   <title>Paya Store</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root{--green:#008060;--live:#00b67a;--bg:#111;--card:#fff;}
+    :root{--green:#008060;--live:#00b67a;}
     *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
     html,body{height:100%;overscroll-behavior:none;}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:#1a1a1a;max-width:430px;margin:0 auto;}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#111;color:#1a1a1a;max-width:430px;margin:0 auto;}
 
-    .page{display:none;height:100dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:90px;background:#111;}
+    .page{display:none;height:100dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:80px;}
     .page.active{display:block;}
 
     /* NAV */
-    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;background:var(--bg);position:sticky;top:0;z-index:50;}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;background:#111;position:sticky;top:0;z-index:50;}
     .av{width:38px;height:38px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:17px;flex-shrink:0;}
     .av.p{background:#5c6bc0;}
     .store-name{font-size:17px;font-weight:600;color:#fff;}
@@ -37,7 +37,6 @@
     .slbl{font-size:11px;color:#888;margin-bottom:3px;}
     .sval{font-size:20px;font-weight:700;cursor:pointer;display:inline-block;line-height:1.2;min-height:28px;}
     .sval.sm{font-size:15px;}
-    .sval:active{opacity:.6;}
     .schg{font-size:12px;color:var(--live);margin-top:3px;cursor:pointer;min-height:20px;display:inline-block;}
 
     .chart-wrap{height:150px;}
@@ -91,56 +90,64 @@
     .ie{border:none;border-bottom:2px solid var(--green);outline:none;background:transparent;font-family:inherit;font-weight:inherit;color:#1a1a1a;font-size:inherit;max-width:200px;}
 
     /* MORE PAGE */
-    .more-page{background:#f5f5f5;min-height:100dvh;padding-bottom:90px;}
-    .more-header{background:#fff;padding:20px 16px 16px;margin-bottom:10px;}
-    .more-header h2{font-size:22px;font-weight:800;}
-    .more-sec-lbl{font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;padding:6px 16px 6px;}
-    .more-section{background:#fff;border-radius:16px;margin:0 12px 12px;overflow:hidden;}
-    .more-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #f5f5f5;cursor:pointer;}
-    .more-row:last-child{border-bottom:none;}
-    .more-row:active{background:#fafafa;}
-    .more-row-left{display:flex;align-items:center;gap:12px;}
-    .more-ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
-    .more-ico.g{background:#e6f4f0;}
-    .more-ico.b{background:#e8f0fb;}
-    .more-ico.o{background:#fff3e6;}
-    .more-ico.r{background:#fde8e8;}
-    .more-ico.p{background:#f0e8fb;}
-    .more-lbl{font-size:15px;font-weight:500;}
-    .more-sub{font-size:12px;color:#aaa;margin-top:2px;}
-    .more-arrow{color:#ccc;font-size:20px;font-weight:300;}
-    .nbadge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:#f5f5f5;color:#aaa;}
-    .nbadge.on{background:#e6f4f0;color:var(--green);}
+    .more-bg{background:#f2f2f7;min-height:100dvh;padding-bottom:80px;}
+    .more-nav{background:#f2f2f7;padding:16px 16px 8px;position:sticky;top:0;z-index:50;}
+    .more-nav h2{font-size:28px;font-weight:800;color:#1a1a1a;}
+    .msec-lbl{font-size:13px;font-weight:600;color:#888;padding:16px 16px 6px;text-transform:uppercase;letter-spacing:.3px;}
+    .msection{background:#fff;border-radius:14px;margin:0 12px 6px;overflow:hidden;}
+    .mrow{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid #f2f2f2;cursor:pointer;min-height:56px;}
+    .mrow:last-child{border-bottom:none;}
+    .mrow:active{background:#f9f9f9;}
+    .mrow-left{display:flex;align-items:center;gap:12px;}
+    .mico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+    .mico.g{background:#34c759;}
+    .mico.b{background:#007aff;}
+    .mico.o{background:#ff9500;}
+    .mico.r{background:#ff3b30;}
+    .mico.p{background:#af52de;}
+    .mico.t{background:#5ac8fa;}
+    .mlbl{font-size:16px;color:#1a1a1a;}
+    .marrow{color:#c7c7cc;font-size:20px;}
+    .mbadge{font-size:12px;font-weight:600;padding:2px 8px;border-radius:20px;background:#f2f2f7;color:#888;margin-right:4px;}
+    .mbadge.on{background:#e6f4f0;color:var(--green);}
 
     /* NOTIF PAGE */
-    .notif-page{background:#f5f5f5;min-height:100dvh;padding-bottom:90px;}
-    .notif-header{background:#fff;padding:16px;display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-    .back-btn{font-size:28px;color:var(--green);cursor:pointer;line-height:1;padding-right:4px;}
-    .notif-header h2{font-size:20px;font-weight:800;}
-    .nsection{background:#fff;border-radius:16px;margin:0 12px 12px;overflow:hidden;}
-    .nrow{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #f5f5f5;}
+    .notif-bg{background:#f2f2f7;min-height:100dvh;padding-bottom:80px;}
+    .notif-nav{background:#f2f2f7;padding:16px;display:flex;align-items:center;gap:6px;position:sticky;top:0;z-index:50;}
+    .back{font-size:17px;color:#007aff;cursor:pointer;display:flex;align-items:center;gap:2px;font-weight:400;}
+    .back svg{width:10px;height:16px;stroke:#007aff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+    .notif-nav h2{font-size:17px;font-weight:600;color:#1a1a1a;margin-left:4px;}
+    .nsec-lbl{font-size:13px;color:#888;padding:16px 16px 6px;text-transform:uppercase;letter-spacing:.3px;font-weight:600;}
+    .nsection{background:#fff;border-radius:14px;margin:0 12px 6px;overflow:hidden;}
+    .nrow{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid #f2f2f2;min-height:52px;}
     .nrow:last-child{border-bottom:none;}
-    .nlbl{font-size:15px;font-weight:500;}
-    .nsub{font-size:12px;color:#aaa;margin-top:2px;}
-    .toggle{position:relative;width:50px;height:28px;flex-shrink:0;}
+    .nlbl{font-size:16px;color:#1a1a1a;}
+    .nsub{font-size:13px;color:#888;margin-top:2px;}
+    .toggle{position:relative;width:51px;height:31px;flex-shrink:0;}
     .toggle input{opacity:0;width:0;height:0;}
-    .tslider{position:absolute;inset:0;background:#ddd;border-radius:28px;transition:.3s;cursor:pointer;}
-    .tslider:before{content:'';position:absolute;width:22px;height:22px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
-    .toggle input:checked+.tslider{background:var(--green);}
-    .toggle input:checked+.tslider:before{transform:translateX(22px);}
-    .ninput{width:64px;border:1.5px solid #ddd;border-radius:10px;padding:7px 10px;font-size:15px;text-align:center;-webkit-appearance:none;}
+    .tsl{position:absolute;inset:0;background:#e5e5ea;border-radius:31px;transition:.25s;cursor:pointer;}
+    .tsl:before{content:'';position:absolute;width:27px;height:27px;left:2px;top:2px;background:#fff;border-radius:50%;transition:.25s;box-shadow:0 2px 4px rgba(0,0,0,.2);}
+    .toggle input:checked+.tsl{background:#34c759;}
+    .toggle input:checked+.tsl:before{transform:translateX(20px);}
+    .ninput{width:70px;border:1.5px solid #ddd;border-radius:10px;padding:7px 10px;font-size:16px;text-align:center;-webkit-appearance:none;background:#fff;}
     .ninput:focus{outline:none;border-color:var(--green);}
-    .nselect{border:1.5px solid #ddd;border-radius:10px;padding:7px 10px;font-size:14px;background:#fff;-webkit-appearance:none;cursor:pointer;}
+    .nselect{border:1.5px solid #ddd;border-radius:10px;padding:7px 10px;font-size:15px;background:#fff;-webkit-appearance:none;cursor:pointer;color:#1a1a1a;}
     .nselect:focus{outline:none;border-color:var(--green);}
-    .ninfo{background:#e6f4f0;border-radius:12px;margin:0 12px 12px;padding:14px 16px;}
-    .ninfo p{font-size:13px;color:#008060;line-height:1.5;}
-    .nperm-btn{width:calc(100% - 24px);margin:0 12px 12px;background:#fff;color:var(--green);border:2px solid var(--green);border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;}
-    .ntest-btn{width:calc(100% - 24px);margin:0 12px 12px;background:var(--green);color:#fff;border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;}
-    .ntest-btn:active{background:#006e52;}
-    .nstop-btn{width:calc(100% - 24px);margin:0 12px 12px;background:#fff;color:#e44;border:2px solid #e44;border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;}
+    .nstore-input{border:1.5px solid #ddd;border-radius:10px;padding:7px 10px;font-size:15px;width:140px;background:#fff;color:#1a1a1a;}
+    .nstore-input:focus{outline:none;border-color:var(--green);}
+    .ninfo{background:#e6f4f0;border-radius:14px;margin:0 12px 6px;padding:14px 16px;}
+    .ninfo p{font-size:14px;color:#008060;line-height:1.5;}
+    .nperm{width:calc(100% - 24px);margin:6px 12px;background:#fff;color:#007aff;border:1.5px solid #007aff;border-radius:14px;padding:14px;font-size:16px;font-weight:600;cursor:pointer;}
+    .nstart{width:calc(100% - 24px);margin:6px 12px;background:#34c759;color:#fff;border:none;border-radius:14px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;}
+    .nstart:active{background:#28a745;}
+    .nstop{width:calc(100% - 24px);margin:6px 12px;background:#fff;color:#ff3b30;border:1.5px solid #ff3b30;border-radius:14px;padding:14px;font-size:16px;font-weight:600;cursor:pointer;}
+    .nstatus{background:#fff;border-radius:14px;margin:0 12px 6px;padding:14px 16px;display:flex;align-items:center;gap:10px;}
+    .nstatus-dot{width:10px;height:10px;border-radius:50%;background:#e5e5ea;flex-shrink:0;}
+    .nstatus-dot.running{background:#34c759;animation:pulse 1s infinite;}
+    .nstatus-txt{font-size:14px;color:#888;}
 
     /* BOTTOM NAV */
-    .bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;border-top:1px solid #e5e5e5;display:flex;justify-content:space-around;align-items:center;padding:10px 8px;padding-bottom:max(10px,env(safe-area-inset-bottom));z-index:50;}
+    .bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;border-top:1px solid #e5e5e5;display:flex;justify-content:space-around;align-items:center;padding:10px 8px;padding-bottom:max(10px,env(safe-area-inset-bottom));z-index:100;}
     .ni{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:#aaa;cursor:pointer;min-width:44px;padding:2px 0;}
     .ni.active{color:#1a1a1a;}
     .ni-circle{width:44px;height:44px;border-radius:50%;background:#f2f2f2;display:flex;align-items:center;justify-content:center;}
@@ -153,13 +160,13 @@
 </head>
 <body>
 
-<!-- ══ HOME ══ -->
+<!-- ══════ HOME ══════ -->
 <div class="page active" id="page-home">
   <div class="nav">
     <div class="av">F</div>
     <span class="store-name">Paya store</span>
     <div class="nav-right">
-      <div class="bell">🔔<b id="bellBadge">1</b></div>
+      <div class="bell">🔔<b>1</b></div>
       <div class="av p">F</div>
     </div>
   </div>
@@ -239,100 +246,89 @@
   </div>
 </div>
 
-<!-- ══ MORE ══ -->
+<!-- ══════ MORE ══════ -->
 <div class="page" id="page-more">
-  <div class="more-page">
-    <div class="more-header"><h2>More</h2></div>
-    <div class="more-sec-lbl">Narzędzia</div>
-    <div class="more-section">
-      <div class="more-row" onclick="goPage('page-notif')">
-        <div class="more-row-left">
-          <div class="more-ico g">🔔</div>
-          <div><div class="more-lbl">Powiadomienia</div><div class="more-sub" id="notifSub">Wyłączone</div></div>
+  <div class="more-bg">
+    <div class="more-nav"><h2>More</h2></div>
+    <div class="msec-lbl">Sklep</div>
+    <div class="msection">
+      <div class="mrow" onclick="goPage('page-notif')">
+        <div class="mrow-left">
+          <div class="mico g">🔔</div>
+          <div><div class="mlbl">Powiadomienia</div></div>
         </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span class="nbadge" id="notifBadge">Off</span>
-          <span class="more-arrow">›</span>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="mbadge" id="mNotifBadge">Off</span>
+          <span class="marrow">›</span>
         </div>
       </div>
-      <div class="more-row">
-        <div class="more-row-left"><div class="more-ico b">📊</div><div><div class="more-lbl">Analytics</div><div class="more-sub">Raporty i statystyki</div></div></div>
-        <span class="more-arrow">›</span>
+      <div class="mrow">
+        <div class="mrow-left"><div class="mico b">📊</div><div class="mlbl">Analytics</div></div>
+        <span class="marrow">›</span>
       </div>
-      <div class="more-row">
-        <div class="more-row-left"><div class="more-ico o">🏷️</div><div><div class="more-lbl">Products</div><div class="more-sub">Zarządzaj produktami</div></div></div>
-        <span class="more-arrow">›</span>
+      <div class="mrow">
+        <div class="mrow-left"><div class="mico o">🏷️</div><div class="mlbl">Products</div></div>
+        <span class="marrow">›</span>
       </div>
-      <div class="more-row">
-        <div class="more-row-left"><div class="more-ico p">💳</div><div><div class="more-lbl">Payments</div><div class="more-sub">Metody płatności</div></div></div>
-        <span class="more-arrow">›</span>
+      <div class="mrow">
+        <div class="mrow-left"><div class="mico p">💳</div><div class="mlbl">Payments</div></div>
+        <span class="marrow">›</span>
       </div>
-      <div class="more-row">
-        <div class="more-row-left"><div class="more-ico r">⚙️</div><div><div class="more-lbl">Settings</div><div class="more-sub">Ustawienia sklepu</div></div></div>
-        <span class="more-arrow">›</span>
+      <div class="mrow">
+        <div class="mrow-left"><div class="mico r">⚙️</div><div class="mlbl">Settings</div></div>
+        <span class="marrow">›</span>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ NOTIFICATIONS ══ -->
+<!-- ══════ NOTIFICATIONS ══════ -->
 <div class="page" id="page-notif">
-  <div class="notif-page">
-    <div class="notif-header">
-      <span class="back-btn" onclick="goPage('page-more')">‹</span>
+  <div class="notif-bg">
+    <div class="notif-nav">
+      <span class="back" onclick="goPage('page-more')">
+        <svg viewBox="0 0 10 16"><polyline points="9,1 1,8 9,15"/></svg>
+        More
+      </span>
       <h2>Powiadomienia</h2>
     </div>
 
-    <div class="ninfo"><p>📱 Powiadomienia push wysyłane są bezpośrednio na Twój telefon — nawet gdy aplikacja jest w tle.</p></div>
+    <div class="ninfo"><p>📱 Powiadomienia push trafiają na Twój telefon jak w Shopify — nawet gdy aplikacja jest w tle.</p></div>
 
-    <button class="nperm-btn" id="permBtn" onclick="requestPermission()">🔓 Zezwól na powiadomienia</button>
+    <button class="nperm" id="permBtn" onclick="requestPermission()">🔓 Zezwól na powiadomienia push</button>
 
+    <div class="nstatus" id="nstatusRow">
+      <div class="nstatus-dot" id="nstatusDot"></div>
+      <span class="nstatus-txt" id="nstatusTxt">Powiadomienia wyłączone</span>
+    </div>
+
+    <div class="nsec-lbl">Typy powiadomień</div>
     <div class="nsection">
       <div class="nrow">
-        <div><div class="nlbl">Włącz powiadomienia</div><div class="nsub">Nowe zamówienia, alerty</div></div>
-        <label class="toggle"><input type="checkbox" id="toggleMain" onchange="onToggleMain()"/><span class="tslider"></span></label>
+        <div><div class="nlbl">Włącz powiadomienia</div><div class="nsub">Główny przełącznik</div></div>
+        <label class="toggle"><input type="checkbox" id="toggleMain" onchange="updateStatus()"/><span class="tsl"></span></label>
       </div>
       <div class="nrow">
-        <div><div class="nlbl">Nowe zamówienie</div><div class="nsub">Przy każdym nowym zamówieniu</div></div>
-        <label class="toggle"><input type="checkbox" id="tOrder" checked/><span class="tslider"></span></label>
+        <div><div class="nlbl">Nowe zamówienie</div><div class="nsub">Przy każdym zamówieniu</div></div>
+        <label class="toggle"><input type="checkbox" id="tOrder" checked/><span class="tsl"></span></label>
       </div>
       <div class="nrow">
-        <div><div class="nlbl">Wysokie ryzyko</div><div class="nsub">Alert przy podejrzanym zamówieniu</div></div>
-        <label class="toggle"><input type="checkbox" id="tRisk" checked/><span class="tslider"></span></label>
+        <div><div class="nlbl">Wysokie ryzyko</div><div class="nsub">Podejrzane zamówienie</div></div>
+        <label class="toggle"><input type="checkbox" id="tRisk" checked/><span class="tsl"></span></label>
       </div>
       <div class="nrow">
         <div><div class="nlbl">Płatność do pobrania</div><div class="nsub">Oczekująca płatność</div></div>
-        <label class="toggle"><input type="checkbox" id="tPay"/><span class="tslider"></span></label>
+        <label class="toggle"><input type="checkbox" id="tPay"/><span class="tsl"></span></label>
       </div>
     </div>
 
+    <div class="nsec-lbl">Harmonogram</div>
     <div class="nsection">
       <div class="nrow">
         <div><div class="nlbl">Liczba powiadomień</div><div class="nsub">Ile wysłać łącznie</div></div>
         <input class="ninput" type="number" id="nCount" value="10" min="1" max="999" inputmode="numeric"/>
       </div>
       <div class="nrow">
-        <div><div class="nlbl">Co ile czasu</div><div class="nsub">Interwał między powiadomieniami</div></div>
+        <div><div class="nlbl">Co ile czasu</div><div class="nsub">Interwał</div></div>
         <select class="nselect" id="nInterval">
-          <option value="10000">10 sek</option>
-          <option value="30000">30 sek</option>
-          <option value="60000" selected>1 min</option>
-          <option value="300000">5 min</option>
-          <option value="600000">10 min</option>
-          <option value="1800000">30 min</option>
-        </select>
-      </div>
-      <div class="nrow">
-        <div><div class="nlbl">Nazwa sklepu w powiadomieniu</div><div class="nsub">Wyświetlana w treści</div></div>
-        <input style="border:1.5px solid #ddd;border-radius:10px;padding:7px 10px;font-size:14px;width:130px;" type="text" id="nStoreName" value="Paya store" inputmode="text"/>
-      </div>
-    </div>
-
-    <button class="ntest-btn" onclick="startNotifications()">▶ Uruchom powiadomienia</button>
-    <button class="nstop-btn" onclick="stopNotifications()">■ Zatrzymaj powiadomienia</button>
-  </div>
-</div>
-
-<!-- BOTTOM NAV -->
-<div class="bnav">
-  <div class="ni" onclick="setNav(this,'page-
+          
