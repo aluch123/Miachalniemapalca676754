@@ -1,283 +1,435 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>Paya Store</title>
-<style>
-:root{--green:#008060;--live:#00b67a;}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;overscroll-behavior:none;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#111;color:#1a1a1a;max-width:430px;margin:0 auto;}
-.page{display:none;height:100dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:80px;}
-.page.active{display:block;}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;background:#111;position:sticky;top:0;z-index:50;}
-.av{width:38px;height:38px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:17px;flex-shrink:0;}
-.av.p{background:#5c6bc0;}
-.store-name{font-size:17px;font-weight:600;color:#fff;}
-.nav-right{display:flex;align-items:center;gap:14px;}
-.bell{position:relative;font-size:24px;cursor:pointer;}
-.bell b{position:absolute;top:-5px;right:-6px;background:#e44;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;}
-.page-bg{background:#111;padding:10px 0 0;}
-.card{background:#fff;border-radius:18px;margin:0 12px 12px;padding:16px;}
-.fbar{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
-.fbtn{display:flex;align-items:center;gap:5px;border:1.5px solid #ddd;border-radius:22px;padding:8px 13px;font-size:13px;font-weight:500;background:#fff;cursor:pointer;color:#1a1a1a;white-space:nowrap;min-height:38px;}
-.vpill{display:flex;align-items:center;gap:6px;border:1.5px solid #ddd;border-radius:22px;padding:8px 13px;font-size:13px;background:#fff;color:#1a1a1a;min-height:38px;cursor:pointer;white-space:nowrap;}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--live);flex-shrink:0;animation:pulse 1.5s infinite;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-.rbtn{margin-left:auto;display:flex;align-items:center;gap:5px;border:1.5px solid #ddd;border-radius:22px;padding:8px 13px;font-size:13px;background:#fff;cursor:pointer;color:#1a1a1a;min-height:38px;}
-.stats{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:6px;margin-bottom:14px;}
-.slbl{font-size:11px;color:#888;margin-bottom:3px;}
-.sval{font-size:20px;font-weight:700;cursor:pointer;display:inline-block;line-height:1.2;min-height:28px;}
-.sval.sm{font-size:15px;}
-.schg{font-size:12px;color:var(--live);margin-top:3px;cursor:pointer;min-height:20px;display:inline-block;}
-.chart-wrap{width:100%;height:150px;position:relative;margin-bottom:4px;}
-.chart-wrap svg{width:100%;height:100%;}
-.chart-axis{display:flex;justify-content:space-between;font-size:10px;color:#bbb;margin-top:2px;}
-.arow{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid #f0f0f0;padding-top:14px;margin-top:8px;}
-.aitem{display:flex;align-items:center;justify-content:space-between;padding:0 8px;border-right:1px solid #f0f0f0;}
-.aitem:first-child{padding-left:0;}
-.aitem:last-child{border-right:none;}
-.anum{font-size:17px;font-weight:700;cursor:pointer;min-height:26px;display:inline-block;}
-.albl{font-size:10px;color:#888;margin-top:2px;line-height:1.3;}
-.aico{font-size:17px;opacity:.45;}
-.cap-card{background:#fff;border-radius:18px;margin:0 12px 12px;padding:18px;}
-.cap-title{font-size:15px;font-weight:700;line-height:1.45;margin-bottom:5px;}
-.cap-sub{font-size:13px;color:#666;margin-bottom:5px;}
-.cap-amt{font-size:28px;font-weight:800;cursor:pointer;display:inline-block;}
-.divider{border:none;border-top:1px solid #f0f0f0;margin:14px 0;}
-.fund-title{font-size:14px;font-weight:700;margin-bottom:10px;}
-.cklist{list-style:none;margin-bottom:16px;}
-.cklist li{font-size:13px;color:#444;margin-bottom:9px;display:flex;gap:8px;align-items:flex-start;line-height:1.4;}
-.cklist li::before{content:"✓";color:var(--live);font-weight:700;flex-shrink:0;}
-.rev-btn{width:100%;border:1.5px solid #ddd;background:#fff;border-radius:12px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;}
-.earn-card{background:#fff;border-radius:18px;margin:0 12px 12px;padding:18px;}
-.earn-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.earn-ttl{font-size:15px;font-weight:700;}
-.earn-badge{background:var(--live);color:#fff;border-radius:20px;padding:4px 11px;font-size:11px;font-weight:700;}
-.earn-amt{font-size:34px;font-weight:800;cursor:pointer;display:inline-block;min-height:44px;}
-.earn-sub{font-size:12px;color:#888;margin-top:4px;line-height:1.4;}
-.earn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px;}
-.eitem{background:#f7f7f7;border-radius:12px;padding:11px 10px;}
-.eival{font-size:14px;font-weight:700;}
-.eilbl{font-size:10px;color:#888;margin-top:3px;}
-.set-card{background:#fff;border-radius:18px;margin:0 12px 12px;padding:18px;}
-.set-ttl{font-size:15px;font-weight:700;margin-bottom:12px;}
-.srow{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #f0f0f0;}
-.srow:last-of-type{border-bottom:none;}
-.slabel{font-size:14px;color:#333;}
-.sright{display:flex;align-items:center;gap:5px;}
-.sright span{font-size:14px;color:#555;}
-.sinput{width:76px;border:1.5px solid #ddd;border-radius:10px;padding:8px 10px;font-size:16px;text-align:right;-webkit-appearance:none;}
-.save-btn{width:100%;background:var(--green);color:#fff;border:none;border-radius:12px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;margin-top:14px;}
-.end-card{background:#f5f5f5;border-radius:18px;margin:0 12px 12px;padding:36px 20px;text-align:center;}
-.end-ico{font-size:30px;opacity:.35;margin-bottom:10px;}
-.end-ttl{font-size:16px;font-weight:700;margin-bottom:7px;color:#1a1a1a;}
-.end-sub{font-size:13px;color:#777;line-height:1.6;}
-.ie{border:none;border-bottom:2px solid var(--green);outline:none;background:transparent;font-family:inherit;font-weight:inherit;color:#1a1a1a;font-size:inherit;max-width:200px;}
-.more-bg{background:#f2f2f7;min-height:100dvh;padding-bottom:80px;}
-.more-nav{background:#f2f2f7;padding:20px 16px 10px;position:sticky;top:0;z-index:50;}
-.more-nav h2{font-size:28px;font-weight:800;}
-.msec-lbl{font-size:13px;color:#888;padding:14px 16px 6px;text-transform:uppercase;letter-spacing:.3px;font-weight:600;}
-.msection{background:#fff;border-radius:14px;margin:0 12px 4px;overflow:hidden;}
-.mrow{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid #f2f2f2;cursor:pointer;min-height:54px;}
-.mrow:last-child{border-bottom:none;}
-.mrow:active{background:#f5f5f5;}
-.mrow-left{display:flex;align-items:center;gap:12px;}
-.mico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
-.mico.g{background:#34c759;}.mico.b{background:#007aff;}.mico.o{background:#ff9500;}.mico.r{background:#ff3b30;}.mico.p{background:#af52de;}
-.mlbl{font-size:16px;color:#1a1a1a;}
-.marrow{color:#c7c7cc;font-size:20px;}
-.mbadge{font-size:12px;font-weight:600;padding:3px 9px;border-radius:20px;background:#f2f2f7;color:#888;}
-.mbadge.on{background:#e6f4f0;color:var(--green);}
-.notif-bg{background:#f2f2f7;min-height:100dvh;padding-bottom:80px;}
-.notif-nav{background:#f2f2f7;padding:16px;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:50;}
-.back{font-size:17px;color:#007aff;cursor:pointer;display:flex;align-items:center;gap:3px;font-weight:400;background:none;border:none;padding:0;}
-.back svg{width:9px;height:15px;stroke:#007aff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
-.notif-nav h2{font-size:17px;font-weight:600;}
-.nsec-lbl{font-size:13px;color:#888;padding:14px 16px 6px;text-transform:uppercase;letter-spacing:.3px;font-weight:600;}
-.nsection{background:#fff;border-radius:14px;margin:0 12px 4px;overflow:hidden;}
-.nrow{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid #f2f2f2;min-height:52px;}
-.nrow:last-child{border-bottom:none;}
-.nlbl{font-size:16px;color:#1a1a1a;}
-.nsub{font-size:13px;color:#888;margin-top:2px;}
-.toggle{position:relative;width:51px;height:31px;flex-shrink:0;}
-.toggle input{opacity:0;width:0;height:0;}
-.tsl{position:absolute;inset:0;background:#e5e5ea;border-radius:31px;transition:.25s;cursor:pointer;}
-.tsl:before{content:'';position:absolute;width:27px;height:27px;left:2px;top:2px;background:#fff;border-radius:50%;transition:.25s;box-shadow:0 2px 4px rgba(0,0,0,.2);}
-.toggle input:checked+.tsl{background:#34c759;}
-.toggle input:checked+.tsl:before{transform:translateX(20px);}
-.ninput{width:70px;border:1.5px solid #ddd;border-radius:10px;padding:7px 10px;font-size:16px;text-align:center;-webkit-appearance:none;background:#fff;}
-.nselect{border:1.5px solid #ddd;border-radius:10px;padding:7px 10px;font-size:15px;background:#fff;-webkit-appearance:none;color:#1a1a1a;}
-.ninfo{background:#e8f5e9;border-radius:14px;margin:0 12px 4px;padding:14px 16px;}
-.ninfo p{font-size:14px;color:#2e7d32;line-height:1.5;}
-.nperm{width:calc(100% - 24px);margin:6px 12px;background:#fff;color:#007aff;border:1.5px solid #007aff;border-radius:14px;padding:14px;font-size:16px;font-weight:600;cursor:pointer;}
-.nstart{width:calc(100% - 24px);margin:6px 12px;background:#34c759;color:#fff;border:none;border-radius:14px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;}
-.nstop{width:calc(100% - 24px);margin:6px 12px;background:#fff;color:#ff3b30;border:1.5px solid #ff3b30;border-radius:14px;padding:14px;font-size:16px;font-weight:600;cursor:pointer;}
-.nstatus{background:#fff;border-radius:14px;margin:0 12px 4px;padding:14px 16px;display:flex;align-items:center;gap:10px;}
-.nsdot{width:10px;height:10px;border-radius:50%;background:#e5e5ea;flex-shrink:0;transition:.3s;}
-.nsdot.on{background:#34c759;animation:pulse 1s infinite;}
-.nstxt{font-size:14px;color:#888;}
-.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;border-top:1px solid #e5e5e5;display:flex;justify-content:space-around;align-items:center;padding:10px 8px;padding-bottom:max(10px,env(safe-area-inset-bottom));z-index:100;}
-.ni{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:#aaa;cursor:pointer;min-width:44px;padding:2px 0;}
-.ni.active{color:#1a1a1a;}
-.nic{width:44px;height:44px;border-radius:50%;background:#f2f2f2;display:flex;align-items:center;justify-content:center;}
-.ni.active .nic{background:#1a1a1a;}
-.nic svg{width:22px;height:22px;stroke:#888;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
-.ni.active .nic svg{stroke:#fff;}
-.nic svg.f{fill:#888;stroke:none;}
-.ni.active .nic svg.f{fill:#fff;stroke:none;}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Paya Store</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f6f6f7; max-width: 430px; margin: 0 auto; min-height: 100vh; position: relative; }
+
+    /* TOP BAR */
+    .topbar { background: #fff; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e5e5e5; position: sticky; top: 0; z-index: 100; }
+    .topbar-left { display: flex; align-items: center; gap: 10px; }
+    .store-icon { width: 36px; height: 36px; background: #008060; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 16px; }
+    .store-name { font-weight: 600; font-size: 16px; }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .notif-btn { position: relative; background: none; border: none; cursor: pointer; font-size: 22px; }
+    .notif-badge { position: absolute; top: -4px; right: -4px; background: #e53e3e; color: #fff; border-radius: 50%; width: 16px; height: 16px; font-size: 10px; display: flex; align-items: center; justify-content: center; }
+    .avatar { width: 34px; height: 34px; background: #7c3aed; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; }
+
+    /* MAIN CONTENT */
+    .content { padding-bottom: 80px; }
+
+    /* FILTER BAR */
+    .filter-bar { background: #fff; padding: 12px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #e5e5e5; }
+    .period-btn { background: #f1f1f1; border: none; border-radius: 8px; padding: 7px 14px; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+    .visitors-badge { background: #f1f1f1; border-radius: 8px; padding: 7px 12px; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+    .dot { width: 8px; height: 8px; background: #008060; border-radius: 50%; display: inline-block; }
+    .report-btn { margin-left: auto; background: none; border: 1px solid #ddd; border-radius: 8px; padding: 7px 12px; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+
+    /* STATS */
+    .stats-section { background: #fff; padding: 16px; margin-top: 8px; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+    .stat-item {}
+    .stat-label { font-size: 12px; color: #6b7280; margin-bottom: 4px; }
+    .stat-value { font-size: 20px; font-weight: 700; color: #111; }
+    .stat-value.main { font-size: 24px; }
+    .stat-change { font-size: 13px; color: #008060; display: flex; align-items: center; gap: 2px; margin-top: 2px; }
+    .stat-change.gray { color: #6b7280; }
+    .chart-container { position: relative; height: 160px; }
+
+    /* ORDERS CARD */
+    .orders-card { background: #fff; margin: 8px 16px; border-radius: 12px; padding: 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .orders-num { font-size: 22px; font-weight: 700; }
+    .orders-label { font-size: 13px; color: #6b7280; margin-top: 2px; }
+    .orders-icon { font-size: 28px; color: #6b7280; }
+
+    /* CAPITAL CARD */
+    .capital-card { background: #fff; margin: 8px 16px; border-radius: 12px; padding: 18px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .capital-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .capital-sub { font-size: 13px; color: #6b7280; margin-bottom: 8px; }
+    .capital-amount { font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+    .capital-list { list-style: none; margin-bottom: 14px; }
+    .capital-list li { font-size: 13px; color: #374151; padding: 3px 0; display: flex; align-items: center; gap: 8px; }
+    .capital-list li::before { content: "✓"; color: #008060; font-weight: 700; }
+    .review-btn { width: 100%; background: #f1f1f1; border: none; border-radius: 10px; padding: 14px; font-size: 15px; font-weight: 500; cursor: pointer; }
+    .review-btn:active { background: #e0e0e0; }
+
+    /* BOTTOM NAV */
+    .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: #fff; border-top: 1px solid #e5e5e5; display: flex; justify-content: space-around; padding: 10px 0 20px; z-index: 200; }
+    .nav-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10px; color: #6b7280; padding: 4px 12px; border-radius: 8px; transition: color 0.2s; }
+    .nav-btn.active { color: #008060; }
+    .nav-btn svg { width: 24px; height: 24px; }
+
+    /* SCREENS */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* NOTIFICATIONS SCREEN */
+    .notif-screen { padding: 20px 16px; padding-bottom: 80px; }
+    .notif-screen h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .notif-screen .sub { font-size: 13px; color: #6b7280; margin-bottom: 20px; }
+    .notif-item { background: #fff; border-radius: 12px; padding: 14px; margin-bottom: 10px; display: flex; gap: 12px; align-items: flex-start; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .notif-logo { width: 42px; height: 42px; background: #96bf48; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+    .notif-body { flex: 1; }
+    .notif-title { font-weight: 600; font-size: 14px; }
+    .notif-text { font-size: 13px; color: #374151; margin-top: 2px; line-height: 1.4; }
+    .notif-time { font-size: 12px; color: #9ca3af; margin-top: 4px; }
+
+    /* SETTINGS SCREEN */
+    .settings-screen { padding: 20px 16px; padding-bottom: 80px; }
+    .settings-screen h2 { font-size: 22px; font-weight: 700; margin-bottom: 20px; }
+    .settings-section { background: #fff; border-radius: 12px; margin-bottom: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .settings-section-title { font-size: 12px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; padding: 12px 16px 6px; }
+    .settings-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid #f3f4f6; }
+    .settings-row:last-child { border-bottom: none; }
+    .settings-row-left { display: flex; flex-direction: column; gap: 2px; }
+    .settings-row-label { font-size: 15px; font-weight: 500; }
+    .settings-row-sub { font-size: 12px; color: #9ca3af; }
+    .toggle { position: relative; width: 48px; height: 28px; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #d1d5db; border-radius: 28px; transition: 0.3s; }
+    .slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: 0.3s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+    input:checked + .slider { background: #008060; }
+    input:checked + .slider:before { transform: translateX(20px); }
+
+    /* REVENUE INPUT */
+    .revenue-input-section { background: #fff; border-radius: 12px; margin-bottom: 16px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .revenue-input-section h3 { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+    .input-row { display: flex; gap: 8px; margin-bottom: 10px; }
+    .input-row input { flex: 1; border: 1px solid #e5e5e5; border-radius: 8px; padding: 10px 12px; font-size: 15px; outline: none; }
+    .input-row input:focus { border-color: #008060; }
+    .input-row select { flex: 1; border: 1px solid #e5e5e5; border-radius: 8px; padding: 10px 12px; font-size: 15px; outline: none; background: #fff; }
+    .save-btn { width: 100%; background: #008060; color: #fff; border: none; border-radius: 10px; padding: 13px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 4px; }
+    .save-btn:active { background: #006e52; }
+
+    /* VISITORS INPUT */
+    .visitors-input { display: flex; align-items: center; gap: 8px; }
+    .visitors-input input { width: 80px; border: 1px solid #008060; border-radius: 6px; padding: 4px 8px; font-size: 14px; text-align: center; outline: none; }
+  </style>
 </head>
 <body>
 
-<!-- HOME -->
-<div class="page active" id="page-home">
-<div class="nav">
-  <div class="av">F</div>
-  <span class="store-name">Paya store</span>
-  <div class="nav-right">
-    <div class="bell">🔔<b>1</b></div>
-    <div class="av p">F</div>
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="store-icon">F</div>
+    <span class="store-name">Paya store</span>
+  </div>
+  <div class="topbar-right">
+    <button class="notif-btn" onclick="showScreen('notifications')">
+      🔔
+      <span class="notif-badge" id="notifBadge">1</span>
+    </button>
+    <div class="avatar">F</div>
   </div>
 </div>
-<div class="page-bg">
-  <div class="card">
-    <div class="fbar">
-      <button class="fbtn" id="periodBtn" onclick="cyclePeriod()">Today <svg width="11" height="11" fill="none" stroke="#555" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
-      <div class="vpill" onclick="editInline('visitorsVal','74 visitors',13)"><span class="dot"></span><span id="visitorsVal">74 visitors</span></div>
-      <button class="rbtn"><svg width="13" height="13" fill="none" stroke="#555" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg> Report</button>
-    </div>
-    <div class="stats">
-      <div>
-        <div class="slbl">Total sales</div>
-        <div class="sval" id="vSales" onclick="editInline('vSales','$48,260.6',20)">$48,260.6</div>
-        <div class="schg" id="vSalesChg" onclick="editInline('vSalesChg','↗ 746%',12)">↗ 746%</div>
+
+<!-- SCREEN: HOME -->
+<div class="screen active" id="screen-home">
+  <div class="content">
+    <div class="filter-bar">
+      <button class="period-btn" onclick="togglePeriod(this)">Today ▾</button>
+      <div class="visitors-badge">
+        <span class="dot"></span>
+        <div class="visitors-input">
+          <input type="number" id="visitorsInput" value="74" min="0" onchange="updateVisitors(this.value)" />
+          <span style="font-size:13px;color:#6b7280;">visitors</span>
+        </div>
       </div>
-      <div>
-        <div class="slbl">Orders</div>
-        <div class="sval sm" id="vOrders" onclick="editInline('vOrders','69,971',15)">69,971</div>
-        <div class="schg" id="vOrdersChg" onclick="editInline('vOrdersChg','↗ 327%',12)">↗ 327%</div>
+      <button class="report-btn">📊 Report</button>
+    </div>
+
+    <div class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-label">Total sales</div>
+          <div class="stat-value main" id="totalSales">$66,105.38</div>
+          <div class="stat-change" id="salesChange">↗ 624%</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Orders</div>
+          <div class="stat-value gray" id="ordersCount">14,024</div>
+          <div class="stat-change" id="ordersChange">↗ 84%</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Conversion rate</div>
+          <div class="stat-value gray" id="convRate">0.85%</div>
+          <div class="stat-change" id="convChange">↗ 738%</div>
+        </div>
       </div>
-      <div>
-        <div class="slbl">Conversion rate</div>
-        <div class="sval sm" id="vConv" onclick="editInline('vConv','11.00%',15)">11.00%</div>
-        <div class="schg" id="vConvChg" onclick="editInline('vConvChg','↗ 392%',12)">↗ 392%</div>
+      <div class="chart-container">
+        <canvas id="salesChart"></canvas>
       </div>
     </div>
-    <!-- SVG CHART — no library needed -->
-    <div class="chart-wrap" id="chartWrap"></div>
-    <div class="chart-axis"><span>12:00 AM</span><span>5:00 AM</span><span>10:00 AM</span></div>
-    <div class="arow">
-      <div class="aitem"><div><div class="anum" id="vFulfill" onclick="editInline('vFulfill','50+',17)">50+</div><div class="albl">Orders to fulfill</div></div><div class="aico">📦</div></div>
-      <div class="aitem" style="padding-left:8px"><div><div class="anum" id="vPayment" onclick="editInline('vPayment','1',17)">1</div><div class="albl">Payment to capture</div></div><div class="aico">💳</div></div>
-      <div class="aitem" style="padding-left:8px"><div><div class="anum" id="vRisk" onclick="editInline('vRisk','9',17)">9</div><div class="albl">High risk orders</div></div><div class="aico">⚠️</div></div>
+
+    <div class="orders-card">
+      <div>
+        <div class="orders-num" id="ordersToFulfill">50+</div>
+        <div class="orders-label">Orders to fulfill</div>
+      </div>
+      <div class="orders-icon">📦</div>
+    </div>
+
+    <div class="capital-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div class="capital-title">You're eligible to apply for funding through Shopify Capital</div>
+        <span style="color:#9ca3af;font-size:18px;cursor:pointer;">···</span>
+      </div>
+      <div class="capital-sub">Apply for up to:</div>
+      <div class="capital-amount">$12,000</div>
+      <ul class="capital-list">
+        <li>Apply with zero impact on your credit score</li>
+        <li>Receive funds in as quick as two business days if approved</li>
+        <li>One fixed fee, with no compounding interest</li>
+      </ul>
+      <button class="review-btn">Review your offers</button>
     </div>
   </div>
+</div>
 
-  <div class="cap-card">
-    <span style="float:right;color:#aaa;font-size:20px">···</span>
-    <div class="cap-title">You're eligible to apply for funding through Shopify Capital</div>
-    <div class="cap-sub">Apply for up to:</div>
-    <div class="cap-amt" id="vCapital" onclick="editInline('vCapital','$12,000',28)">$12,000</div>
-    <hr class="divider"/>
-    <div class="fund-title">Get fast funding and repay with a percentage of your daily sales</div>
-    <ul class="cklist">
-      <li>Apply with zero impact on your credit score</li>
-      <li>Receive funds in as quick as two business days if approved</li>
-      <li>One fixed fee, with no compounding interest</li>
-    </ul>
-    <button class="rev-btn">Review your offers</button>
+<!-- SCREEN: NOTIFICATIONS -->
+<div class="screen" id="screen-notifications">
+  <div class="notif-screen">
+    <h2>Notification Center</h2>
+    <p class="sub">Powiadomienia o zamówieniach</p>
+    <div id="notifList"></div>
   </div>
+</div>
 
-  <div class="earn-card">
-    <div class="earn-hdr"><span class="earn-ttl">💰 Twoje zarobki</span><span class="earn-badge">LIVE</span></div>
-    <div class="earn-amt" id="liveEarn" onclick="editEarnings()">$0.00</div>
-    <div class="earn-sub" id="sessInfo">Sesja: 0m 0s · 0 odsłon · 0 kliknięć</div>
-    <div class="earn-grid">
-      <div class="eitem"><div class="eival" id="ebV">$0.00</div><div class="eilbl">Odsłony</div></div>
-      <div class="eitem"><div class="eival" id="ebT">$0.00</div><div class="eilbl">Czas</div></div>
-      <div class="eitem"><div class="eival" id="ebC">$0.00</div><div class="eilbl">Kliknięcia</div></div>
+<!-- SCREEN: SETTINGS -->
+<div class="screen" id="screen-settings">
+  <div class="settings-screen">
+    <h2>Ustawienia</h2>
+
+    <!-- Revenue settings -->
+    <div class="revenue-input-section">
+      <h3>Ustaw przychody i statystyki</h3>
+      <div class="input-row">
+        <input type="number" id="inputSales" placeholder="Total sales ($)" />
+        <input type="number" id="inputSalesChange" placeholder="Zmiana %" />
+      </div>
+      <div class="input-row">
+        <input type="number" id="inputOrders" placeholder="Liczba zamówień" />
+        <input type="number" id="inputOrdersChange" placeholder="Zmiana %" />
+      </div>
+      <div class="input-row">
+        <input type="number" id="inputConv" placeholder="Conversion rate %" step="0.01" />
+        <input type="number" id="inputConvChange" placeholder="Zmiana %" />
+      </div>
+      <div class="input-row">
+        <input type="number" id="inputVisitors" placeholder="Liczba odwiedzających" />
+        <input type="number" id="inputFulfill" placeholder="Orders to fulfill" />
+      </div>
+      <button class="save-btn" onclick="saveStats()">Zapisz statystyki</button>
+    </div>
+
+    <!-- Notification settings -->
+    <div class="settings-section">
+      <div class="settings-section-title">Powiadomienia o zamówieniach</div>
+      <div class="settings-row">
+        <div class="settings-row-left">
+          <span class="settings-row-label">Nowe zamówienie</span>
+          <span class="settings-row-sub">Powiadom przy każdym zamówieniu</span>
+        </div>
+        <label class="toggle"><input type="checkbox" id="notifNewOrder" checked onchange="updateNotifSettings()"><span class="slider"></span></label>
+      </div>
+      <div class="settings-row">
+        <div class="settings-row-left">
+          <span class="settings-row-label">Dźwięk powiadomień</span>
+          <span class="settings-row-sub">Odtwarzaj dźwięk przy zamówieniu</span>
+        </div>
+        <label class="toggle"><input type="checkbox" id="notifSound" checked onchange="updateNotifSettings()"><span class="slider"></span></label>
+      </div>
+      <div class="settings-row">
+        <div class="settings-row-left">
+          <span class="settings-row-label">Anulowane zamówienia</span>
+          <span class="settings-row-sub">Powiadom o anulowaniu</span>
+        </div>
+        <label class="toggle"><input type="checkbox" id="notifCancelled" onchange="updateNotifSettings()"><span class="slider"></span></label>
+      </div>
+      <div class="settings-row">
+        <div class="settings-row-left">
+          <span class="settings-row-label">Zwroty</span>
+          <span class="settings-row-sub">Powiadom o zwrocie towaru</span>
+        </div>
+        <label class="toggle"><input type="checkbox" id="notifRefund" onchange="updateNotifSettings()"><span class="slider"></span></label>
+      </div>
+    </div>
+
+    <!-- Revenue alerts -->
+    <div class="settings-section">
+      <div class="settings-section-title">Alerty przychodów</div>
+      <div class="settings-row">
+        <div class="settings-row-left">
+          <span class="settings-row-label">Dzienny cel sprzedaży</span>
+          <span class="settings-row-sub">Powiadom gdy osiągniesz cel</span>
+        </div>
+        <label class="toggle"><input type="checkbox" id="notifDailyGoal" checked onchange="updateNotifSettings()"><span class="slider"></span></label>
+      </div>
+      <div class="settings-row">
+        <div class="settings-row-left">
+          <span class="settings-row-label">Raport dzienny</span>
+          <span class="settings-row-sub">Podsumowanie o 23:00</span>
+        </div>
+        <label class="toggle"><input type="checkbox" id="notifDailyReport" checked onchange="updateNotifSettings()"><span class="slider"></span></label>
+      </div>
+    </div>
+
+    <!-- Visitors alerts -->
+    <div class="settings-section">
+      <div class="settings-section-title">Odwiedzający</div>
+      <div class="settings-row">
+        <div class="settings-row-left">
+          <span class="settings-row-label">Spike odwiedzających</span>
+          <span class="settings-row-sub">Powiadom przy nagłym wzroście</span>
+        </div>
+        <label class="toggle"><input type="checkbox" id="notifVisitorSpike" onchange="updateNotifSettings()"><span class="slider"></span></label>
+      </div>
+    </div>
+
+    <!-- Simulate order -->
+    <div class="revenue-input-section">
+      <h3>Symuluj nowe zamówienie</h3>
+      <div class="input-row">
+        <input type="text" id="simStore" placeholder="Nazwa sklepu" value="Paya Store" />
+        <input type="number" id="simItems" placeholder="Liczba produktów" value="2" />
+      </div>
+      <div class="input-row">
+        <input type="number" id="simAmount" placeholder="Kwota ($)" value="49.99" step="0.01" />
+        <select id="simSource">
+          <option>Online Store</option>
+          <option>Facebook & Instagram</option>
+          <option>Google</option>
+          <option>Email</option>
+        </select>
+      </div>
+      <button class="save-btn" onclick="simulateOrder()">Dodaj powiadomienie</button>
     </div>
   </div>
-
-  <div class="set-card">
-    <div class="set-ttl">⚙️ Ustawienia zarobków</div>
-    <div class="srow"><span class="slabel">Za odsłonę strony</span><div class="sright"><span>$</span><input class="sinput" type="number" id="rView" value="0.05" step="0.01" min="0" inputmode="decimal"/></div></div>
-    <div class="srow"><span class="slabel">Za minutę przeglądania</span><div class="sright"><span>$</span><input class="sinput" type="number" id="rTime" value="0.10" step="0.01" min="0" inputmode="decimal"/></div></div>
-    <div class="srow"><span class="slabel">Za kliknięcie</span><div class="sright"><span>$</span><input class="sinput" type="number" id="rClick" value="0.02" step="0.01" min="0" inputmode="decimal"/></div></div>
-    <div class="srow"><span class="slabel">Bonus za zamówienie</span><div class="sright"><span>$</span><input class="sinput" type="number" id="rOrder" value="1.00" step="0.10" min="0" inputmode="decimal"/></div></div>
-    <button class="save-btn" onclick="saveSettings()">Zapisz ustawienia</button>
-  </div>
-
-  <div class="end-card">
-    <div class="end-ico">⊘</div>
-    <div class="end-ttl">That's it for now</div>
-    <div class="end-sub">Check back later for more insights and advice about your business</div>
-  </div>
-</div>
-</div>
-
-<!-- MORE -->
-<div class="page" id="page-more">
-<div class="more-bg">
-  <div class="more-nav"><h2>More</h2></div>
-  <div class="msec-lbl">Narzędzia</div>
-  <div class="msection">
-    <div class="mrow" onclick="goPage('page-notif')">
-      <div class="mrow-left"><div class="mico g">🔔</div><div class="mlbl">Powiadomienia</div></div>
-      <div style="display:flex;align-items:center;gap:8px;"><span class="mbadge" id="mNotifBadge">Off</span><span class="marrow">›</span></div>
-    </div>
-    <div class="mrow"><div class="mrow-left"><div class="mico b">📊</div><div class="mlbl">Analytics</div></div><span class="marrow">›</span></div>
-    <div class="mrow"><div class="mrow-left"><div class="mico o">🏷️</div><div class="mlbl">Products</div></div><span class="marrow">›</span></div>
-    <div class="mrow"><div class="mrow-left"><div class="mico p">💳</div><div class="mlbl">Payments</div></div><span class="marrow">›</span></div>
-    <div class="mrow"><div class="mrow-left"><div class="mico r">⚙️</div><div class="mlbl">Settings</div></div><span class="marrow">›</span></div>
-  </div>
-</div>
-</div>
-
-<!-- NOTIFICATIONS -->
-<div class="page" id="page-notif">
-<div class="notif-bg">
-  <div class="notif-nav">
-    <button class="back" onclick="goPage('page-more')"><svg viewBox="0 0 9 15"><polyline points="8,1 1,7.5 8,14"/></svg> More</button>
-    <h2>Powiadomienia</h2>
-  </div>
-  <div class="ninfo"><p>📱 Powiadomienia push jak w Shopify. Na iPhone: dodaj stronę do ekranu głównego przez Safari → Udostępnij → Dodaj do ekranu głównego.</p></div>
-  <button class="nperm" id="permBtn" onclick="requestPermission()">🔓 Zezwól na powiadomienia</button>
-  <div class="nstatus"><div class="nsdot" id="nsdot"></div><span class="nstxt" id="nstxt">Powiadomienia wyłączone</span></div>
-  <div class="nsec-lbl">Typy powiadomień</div>
-  <div class="nsection">
-    <div class="nrow"><div><div class="nlbl">Włącz powiadomienia</div><div class="nsub">Główny przełącznik</div></div><label class="toggle"><input type="checkbox" id="toggleMain" onchange="updateStatus()"/><span class="tsl"></span></label></div>
-    <div class="nrow"><div><div class="nlbl">Nowe zamówienie</div><div class="nsub">Przy każdym zamówieniu</div></div><label class="toggle"><input type="checkbox" id="tOrder" checked/><span class="tsl"></span></label></div>
-    <div class="nrow"><div><div class="nlbl">Wysokie ryzyko</div><div class="nsub">Podejrzane zamówienie</div></div><label class="toggle"><input type="checkbox" id="tRisk" checked/><span class="tsl"></span></label></div>
-    <div class="nrow"><div><div class="nlbl">Płatność do pobrania</div></div><label class="toggle"><input type="checkbox" id="tPay"/><span class="tsl"></span></label></div>
-  </div>
-  <div class="nsec-lbl">Harmonogram</div>
-  <div class="nsection">
-    <div class="nrow"><div><div class="nlbl">Liczba powiadomień</div><div class="nsub">Ile wysłać łącznie</div></div><input class="ninput" type="number" id="nCount" value="10" min="1" max="999" inputmode="numeric"/></div>
-    <div class="nrow"><div><div class="nlbl">Co ile czasu</div><div class="nsub">Interwał</div></div>
-      <select class="nselect" id="nInterval">
-        <option value="10000">10 sek</option>
-        <option value="30000">30 sek</option>
-        <option value="60000" selected>1 min</option>
-        <option value="300000">5 min</option>
-        <option value="600000">10 min</option>
-        <option value="1800000">30 min</option>
-      </select>
-    </div>
-    <div class="nrow"><div><div class="nlbl">Nazwa sklepu</div></div><input style="border:1.5px solid #ddd;border-radius:10px;padding:7px 10px;font-size:14px;width:130px;background:#fff;" type="text" id="nStoreName" value="Paya store"/></div>
-  </div>
-  <button class="nstart" onclick="startNotifications()">▶ Uruchom powiadomienia</button>
-  <button class="nstop" onclick="stopNotifications()">■ Zatrzymaj</button>
-</div>
 </div>
 
 <!-- BOTTOM NAV -->
-<div class="bnav">
-  <div class="ni active" id="ni-home" onclick="setNav('page-home')">
-    <div class="nic"><svg class="f" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></div>
-    <span>Home</span>
-  </div>
-  <div class="ni" id="ni-orders" onclick="setNav('page-home')">
-    <div class="nic"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="9" x2="22" y2="9
+<div class="bottom-nav">
+  <button class="nav-btn active" id="nav-home" onclick="showScreen('home')">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    Home
+  </button>
+  <button class="nav-btn" id="nav-search" onclick="showScreen('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    Szukaj
+  </button>
+  <button class="nav-btn" id="nav-orders" onclick="showScreen('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    Zamówienia
+  </button>
+  <button class="nav-btn" id="nav-notifications" onclick="showScreen('notifications')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    Powiadomienia
+  </button>
+  <button class="nav-btn" id="nav-settings" onclick="showScreen('settings')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    Ustawienia
+  </button>
+</div>
+
+<script>
+  // --- DATA ---
+  let notifications = [
+    { store: "Paya Store", items: 2, amount: 70.49, source: "Online Store", time: "1h ago" },
+    { store: "Paya Store", items: 1, amount: 19.50, source: "Online Store", time: "1h ago" },
+    { store: "Paya Store", items: 3, amount: 15.00, source: "Online Store", time: "1h ago" },
+    { store: "Paya Store", items: 2, amount: 29.68, source: "Facebook & Instagram", time: "3h ago" },
+    { store: "Paya Store", items: 1, amount: 20.50, source: "Online Store", time: "9:38 AM" },
+  ];
+
+  let stats = {
+    sales: 66105.38, salesChange: 624,
+    orders: 14024, ordersChange: 84,
+    conv: 0.85, convChange: 738,
+    visitors: 74, fulfill: 50
+  };
+
+  // --- CHART ---
+  let chart;
+  function initChart() {
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    const labels = ['12AM','1AM','2AM','3AM','4AM','5AM','6AM','7AM','8AM','9AM','10AM'];
+    const data1 = [3500,4200,5800,4100,6200,8100,7400,9200,8800,10500,10800];
+    const data2 = [2800,3100,4200,3800,5100,6800,6200,7900,8100,9800,10200];
+    chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          { data: data1, borderColor: '#00a67e', borderWidth: 2, pointRadius: 0, tension: 0.4, fill: false },
+          { data: data2, borderColor: '#00a67e', borderWidth: 1.5, borderDash: [5,5], pointRadius: 0, tension: 0.4, fill: false }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#9ca3af' } },
+          y: { grid: { color: '#f3f4f6' }, ticks: { font: { size: 10 }, color: '#9ca3af', callback: v => '$' + (v/1000).toFixed(1) + 'K' } }
+        }
+      }
+    });
+  }
+
+  // --- SCREENS ---
+  function showScreen(name) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('screen-' + name).classList.add('active');
+    document.getElementById('nav-' + name)?.classList.add('active');
+    if (name === 'notifications') renderNotifications();
+  }
+
+  // --- NOTIFICATIONS ---
+  function renderNotifications() {
+    const list = document.getElementById('notifList');
+    list.innerHTML = notifications.map(n => `
+      <div class="notif-item">
+        <div class="notif-logo">🛍️</div>
+        <div class="notif-body">
+          <div class="notif-title">Shopify</div>
+          <div class="notif-text">${n.store} has a new order for ${n.items} item${n.items > 1 ? 's' : ''} totaling $${n.amount.toFixed(2)} from ${n.source}.</div>
+          <div class="notif-time">${n.time}</div>
+        </div>
+      </div>
+    `).join('');
+    document.getElementById('notifBadge').textContent = notifications.length;
+  }
+
+  function simulateOrder() {
+    const store = document.getElementById('simStore').value || 'Paya Store';
+    const items = parseInt(document.getElementById('simItems').value) || 1;
+    const amount = parseFloat(document.getElementById('simAmount').value) || 0;
+    const source = document.getElementById('simSource').value;
+    notifications.unshift({ store, items, amount, source, time: 'Teraz' });
+    document.getElementById('notifBadge').textContent = notifications.length;
+    alert(`✅ Powiadomienie dodane!\n${store}: ${items} produkt(y), $${amount.toFixed(2)} z ${source}`);
+  }
+
+  // --- STATS ---
+  function saveStats() {
+    const s = document.getElementById('inputSales').value;
+    const sc = document.getElementById('inputSalesChange').value;
+    const o = document.getElementById('inputOrders').value;
+    const oc = document.getElementById('inputOrdersChange').value;
+    const c = document.getElementById('inputConv').value;
+    const cc = document.getElementById('inputConvChange').value;
+    const v = document.getElementById('inputVisitors').value;
+    const f = document.getElementById('inputFulfill').value;
+
+    if (s) { stats.sales = parseFloat(s); document.getElementById('totalSales').textContent = '$' + parseFloat(s).toLocaleString('en-US', {minimumFractionDigits:2}); }
+    if (sc) { stats.salesChange = parseFloat(sc); document.getElementById('salesChange').textContent = '↗ ' + sc + '%'; }
+    if (o) { stats.orders = parseInt(o); document.getElementById('ordersCount').textContent = parseInt(o).toLocaleString(); }
+    if (oc) { stats.ordersChange = parseFloat(oc); document.getElementById('ordersChange').textContent = '↗ ' + oc + '%'; }
+    if (c) { stats.conv = parseFloat(c); document.getElementById('convRate').textContent = c + '%'; }
+    if (cc) { stats.convChange = parseFloat(cc); document.getElementById('convChange').textContent = '↗ ' + cc + '%'; }
+    if (v) { stats.visitors = parseInt(v); document.getElementById('visitorsInput').value = v; }
+    
